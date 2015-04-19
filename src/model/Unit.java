@@ -12,6 +12,7 @@ public abstract class Unit {
 	public Player player;
 	public int hitpoints;
 	public int moveMultiplier;
+	public int attack;
 	
 	/**
 	 * Unit
@@ -26,6 +27,7 @@ public abstract class Unit {
 		this.player = player;
 		moveMultiplier = 2;
 		hitpoints = 100;
+		attack = 20;
 	}
 	
 	/**
@@ -36,7 +38,24 @@ public abstract class Unit {
 	 * @param direction (int)
 	 * @return boolean
 	 */
-	public boolean move(int direction) {
+	public boolean move(Direction d) {
+		switch (d) {
+		case UP:
+			
+			break;
+		case DOWN: 
+			
+			break;
+		case LEFT:
+			
+			break;
+		case RIGHT:
+			
+			break;
+		default:
+			break;
+		
+		}
 		return false;
 		
 	}
@@ -83,5 +102,13 @@ public abstract class Unit {
 	 */
 	public Player getPlayer() {
 		return this.player;
+	}
+	
+	public int getHitpoints() {
+		return this.hitpoints;
+	}
+	
+	public void setHitpoints(int hit) {
+		this.hitpoints = hit;
 	}
 }

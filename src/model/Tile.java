@@ -1,6 +1,8 @@
 package model;
 
-public abstract class Tile {
+import javax.swing.JPanel;
+
+public abstract class Tile extends JPanel{
 	/**
 	 * The move cost of going through this tile
 	 */
