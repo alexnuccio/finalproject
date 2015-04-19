@@ -38,25 +38,7 @@ public abstract class Unit {
 	 * @param direction (int)
 	 * @return boolean
 	 */
-<<<<<<< HEAD
-	public boolean move(Direction d) {
-		switch (d) {
-		case UP:
-			
-			break;
-		case DOWN: 
-			
-			break;
-		case LEFT:
-			
-			break;
-		case RIGHT:
-			
-			break;
-		default:
-			break;
 		
-=======
 	public boolean move(Direction D) {
 		switch(D){
 		case UP:
@@ -67,7 +49,6 @@ public abstract class Unit {
 			break;
 		case RIGHT:
 			break;
->>>>>>> origin/master
 		}
 		return false;
 	}
