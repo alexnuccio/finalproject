@@ -6,13 +6,7 @@ package model;
  * @author Team Barbs
  *
  */
-public class Archer extends Unit {
-<<<<<<< HEAD
-
-
-=======
->>>>>>> origin/master
-	
+public class Archer extends Unit {	
 	/**
 	 * Archer
 	 * 
@@ -23,16 +17,9 @@ public class Archer extends Unit {
 	 */
 	public Archer(String name, Player player) {
 		super(name, player);
-<<<<<<< HEAD
 		this.hitpoints = 100;
 		this.moveMultiplier = 2;
 		this.attack = 30;
-	}
-
-
-=======
-		hitpoints = 100;
-		moveMultiplier = 2;
 	}
 
 	/**
@@ -46,5 +33,4 @@ public class Archer extends Unit {
 	public boolean attack(int direction) {
 		return false;
 	}
->>>>>>> origin/master
 }
