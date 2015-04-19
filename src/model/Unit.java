@@ -62,9 +62,18 @@ public abstract class Unit {
 	 * @param direction (int)
 	 * @return boolean
 	 */
-	public boolean attack(int direction) {
+	public boolean attack(Direction D) {
+		switch(D){
+		case UP:
+			break;
+		case DOWN:
+			break;
+		case LEFT:
+			break;
+		case RIGHT:
+			break;
+		}
 		return false;
-		
 	}
 	
 	/**
