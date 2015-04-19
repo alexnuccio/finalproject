@@ -38,6 +38,7 @@ public abstract class Unit {
 	 * @param direction (int)
 	 * @return boolean
 	 */
+<<<<<<< HEAD
 	public boolean move(Direction d) {
 		switch (d) {
 		case UP:
@@ -55,9 +56,20 @@ public abstract class Unit {
 		default:
 			break;
 		
+=======
+	public boolean move(Direction D) {
+		switch(D){
+		case UP:
+			break;
+		case DOWN:
+			break;
+		case LEFT:
+			break;
+		case RIGHT:
+			break;
+>>>>>>> origin/master
 		}
 		return false;
-		
 	}
 	
 	/**
@@ -70,7 +82,6 @@ public abstract class Unit {
 	 */
 	public boolean useItem(Item item) {
 		return false;
-		
 	}
 	
 	/**
@@ -81,9 +92,18 @@ public abstract class Unit {
 	 * @param direction (int)
 	 * @return boolean
 	 */
-	public boolean attack(int direction) {
+	public boolean attack(Direction D) {
+		switch(D){
+		case UP:
+			break;
+		case DOWN:
+			break;
+		case LEFT:
+			break;
+		case RIGHT:
+			break;
+		}
 		return false;
-		
 	}
 	
 	/**

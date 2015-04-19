@@ -7,9 +7,12 @@ package model;
  *
  */
 public class Barbarian extends Unit {
+<<<<<<< HEAD
 
 	
 	
+=======
+>>>>>>> origin/master
 	/**
 	 * Barbarian
 	 * 
@@ -23,8 +26,12 @@ public class Barbarian extends Unit {
 		this.hitpoints = 100;
 		this.moveMultiplier = 2;
 		this.attack = 20;
+<<<<<<< HEAD
 		
 	}
 	
+=======
+	}
+>>>>>>> origin/master
 
 }
