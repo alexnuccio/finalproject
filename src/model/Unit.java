@@ -12,6 +12,7 @@ public abstract class Unit {
 	public Player player;
 	public int hitpoints;
 	public int moveMultiplier;
+	public int attack;
 	
 	/**
 	 * Unit
@@ -36,9 +37,18 @@ public abstract class Unit {
 	 * @param direction (int)
 	 * @return boolean
 	 */
-	public boolean move(int direction) {
+	public boolean move(Direction D) {
+		switch(D){
+		case UP:
+			break;
+		case DOWN:
+			break;
+		case LEFT:
+			break;
+		case RIGHT:
+			break;
+		}
 		return false;
-		
 	}
 	
 	/**
@@ -51,7 +61,6 @@ public abstract class Unit {
 	 */
 	public boolean useItem(Item item) {
 		return false;
-		
 	}
 	
 	/**
