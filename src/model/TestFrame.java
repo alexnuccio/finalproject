@@ -52,16 +52,9 @@ public class TestFrame extends JPanel {
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Frame");
-		JPanel base = new JPanel(new GridLayout(5, 5));
-		frame.add(base);
-		for(int i = 0; i < 15; i ++) {
-			PlainTile newTile = new PlainTile();
-			base.add(newTile);
-		}
-		for(int i = 0; i < 10; i ++) {
-			MountainTile newTile = new MountainTile();
-			base.add(newTile);
-		}
+		MapOne map = new MapOne();
+		frame.add(map);
+		
 		frame.setVisible(true);
 		frame.pack();
 	}

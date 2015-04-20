@@ -14,16 +14,11 @@ public class MountainTile extends Tile {
 	 * Sets moveCost to 10
 	 */
 	public MountainTile(){
-		this.occupancy = false;
+		this.occupiable = true;
+		this.isOccupied = false;
 		this.moveCost = 10;
-		this.setPreferredSize(new Dimension(100, 100));
-	}
-	/**
-	 * A method to check whether or not the MountainTile is occupiable
-	 * @return Whether or not the MountainTile is occupiable
-	 */
-	public boolean isOccupiable(){
-		return false;
+		this.occupant = null;
+		this.setPreferredSize(new Dimension(60, 60));
 	}
 	
 	@Override

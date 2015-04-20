@@ -112,4 +112,12 @@ public abstract class Unit {
 	public void setHitpoints(int hit) {
 		this.hitpoints = hit;
 	}
+	
+	public boolean equals(Unit other) {
+		if(this.name.equals(other.name)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

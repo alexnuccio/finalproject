@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,15 +13,11 @@ public class RiverTile extends Tile {
 	 * The constructor for RiverTiles
 	 */
 	public RiverTile(){
-		this.moveCost = 4;
-		this.occupancy = false;
-	}
-	/**
-	 * A method to check whether or not the RiverTile is occupiable
-	 * @return Whether or not the RiverTile is occupiable
-	 */
-	public boolean isOccupiable(){
-		return false;
+		this.moveCost = 100;
+		this.occupiable = false;
+		this.isOccupied = false;
+		this.occupant = null;
+		this.setPreferredSize(new Dimension(60, 60));
 	}
 	
 	@Override
