@@ -8,6 +8,7 @@ import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -54,9 +55,33 @@ public class TestFrame extends JPanel {
 		JFrame frame = new JFrame("Frame");
 		MapOne map = new MapOne();
 		frame.add(map);
-		
+		Unit barb = new Barbarian("this", new Player());
+		barb.setPosition(2, 2, map);
+		map.repaint();
 		frame.setVisible(true);
 		frame.pack();
+		Scanner scan = new Scanner(System.in);
+		String move = "";
+		while(!move.equalsIgnoreCase("stop")) {
+			System.out.print("Enter a direction to move: ");
+			move = ((String) scan.next());
+			if(move.equalsIgnoreCase("up")) {
+				barb.move(Direction.UP, map);
+				map.repaint();
+			} else if (move.equalsIgnoreCase("down")) {
+				barb.move(Direction.DOWN, map);
+				map.repaint();
+			} else if (move.equalsIgnoreCase("left")) {
+				barb.move(Direction.LEFT, map);
+				map.repaint();
+			} else if (move.equalsIgnoreCase("right")) {
+				barb.move(Direction.RIGHT, map);
+				map.repaint();
+			} else {
+				System.out.println("enter new direction");
+			}
+		}
+		
 	}
 
 }

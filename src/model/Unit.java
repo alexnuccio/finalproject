@@ -30,6 +30,15 @@ public abstract class Unit {
 		attack = 20;
 	}
 	
+	public boolean setPosition(int row, int col, MapOne m) {
+		if(m.array[row][col].isOccupied() == false) {
+			m.array[row][col].setOccupant(this);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * move
 	 * 
@@ -39,15 +48,66 @@ public abstract class Unit {
 	 * @return boolean
 	 */
 		
-	public boolean move(Direction D) {
+	public boolean move(Direction D, MapOne m) {
+		int currRow, currCol;
+		currRow = this.getRow(m);
+		currCol = this.getCol(m);
 		switch(D){
 		case UP:
+			if((currRow - 1) < 0) {
+				//invalid move
+				return false;
+			}
+			if(m.array[currRow - 1][currCol].isOccupied() == true) {
+				return false;
+			} else if ((currRow - 1) >= 0) {
+				m.array[currRow - 1][currCol].setOccupant(this);
+				m.array[currRow][currCol].isOccupied = false;
+			} else {
+				// do nothing
+			}
 			break;
 		case DOWN:
+			if((currRow + 1) > 7) {
+				//invalid move
+				return false;
+			}
+			if(m.array[currRow + 1][currCol].isOccupied() == true) {
+				return false;
+			} else if ((currRow + 1) <= 7) {
+				m.array[currRow + 1][currCol].setOccupant(this);
+				m.array[currRow][currCol].isOccupied = false;
+			} else {
+				// do nothing
+			}
 			break;
 		case LEFT:
+			if((currCol - 1) < 0) {
+				//invalid move
+				return false;
+			}
+			if(m.array[currRow][currCol - 1].isOccupied() == true) {
+				return false;
+			} else if ((currCol - 1) >= 0) {
+				m.array[currRow][currCol - 1].setOccupant(this);
+				m.array[currRow][currCol].isOccupied = false;
+			}else {
+				//do nothing
+			}
 			break;
 		case RIGHT:
+			if((currCol + 1) > 7) {
+				//invalid move
+				return false;
+			}
+			if(m.array[currRow][currCol + 1].isOccupied() == true) {
+				return false;
+			} else if ((currCol + 1) <= 7) {
+				m.array[currRow][currCol + 1].setOccupant(this);
+				m.array[currRow][currCol].isOccupied = false;
+			}else {
+				//do nothing
+			}
 			break;
 		}
 		return false;
@@ -103,6 +163,32 @@ public abstract class Unit {
 	 */
 	public Player getPlayer() {
 		return this.player;
+	}
+	
+	public int getRow(MapOne m) {
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(m.array[i][j].isOccupied() == false) {
+					continue;
+				} else if(m.array[i][j].getOccupant().equals(this)) {
+					return i;
+				}
+			}
+		}
+		return -1; //-1 if it is not present in array
+	}
+	
+	public int getCol(MapOne m) {
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(m.array[i][j].isOccupied() == false) {
+					continue;
+				} else if(m.array[i][j].getOccupant().equals(this)) {
+					return j;
+				}
+			}
+		}
+		return -1; //-1 if it is not present in array
 	}
 	
 	public int getHitpoints() {

@@ -1,8 +1,9 @@
 package model;
 
 import javax.swing.JPanel;
+import java.awt.*;
 
-public abstract class Tile extends JPanel{
+public abstract class Tile {
 	/**
 	 * The move cost of going through this tile
 	 */
@@ -22,6 +23,7 @@ public abstract class Tile extends JPanel{
 		this.isOccupied = false;
 		this.occupant = null;
 	}
+
 	
 	/**
 	 * Detects if the tile is a trapped tile
