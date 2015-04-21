@@ -3,7 +3,7 @@ package model;
 /**
  * This class is the abstract Unit class. All decendents will inherit these methods
  * 
- * @author Alex Nuccio, Eric Myre, Angel Cornejo, Raymond
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public abstract class Unit {

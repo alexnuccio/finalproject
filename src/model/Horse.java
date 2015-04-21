@@ -1,5 +1,8 @@
 package model;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
 /**
  * this class represents the horse unit
  * 
@@ -22,6 +25,18 @@ public class Horse extends Unit {
 		this.hitpoints = 80;
 		this.moveMultiplier = 5;
 		this.attack = 20;
+	}
+
+	@Override
+	public void draw(Graphics g, int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Image getImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -1,5 +1,8 @@
 package model;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
 /**
  * This class represents the Mage unit
  * 
@@ -21,5 +24,17 @@ public class Mage extends Unit {
 		this.moveMultiplier = 2;
 		this.hitpoints = 100;
 		this.attack = 10;
+	}
+
+	@Override
+	public void draw(Graphics g, int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Image getImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

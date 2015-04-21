@@ -1,5 +1,8 @@
 package model;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
 /**
  * This class represents the Spearman unit
  * 
@@ -22,6 +25,18 @@ public class Spearman extends Unit {
 		this.moveMultiplier = 1;
 		this.hitpoints = 150;
 		this.attack = 20;
+	}
+
+	@Override
+	public void draw(Graphics g, int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Image getImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

@@ -1,5 +1,13 @@
 package model;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 /**
  * this class represents the Barbarian unit
  * 
@@ -7,6 +15,8 @@ package model;
  *
  */
 public class Barbarian extends Unit {
+	
+	private BufferedImage img;
 
 	/**
 	 * Barbarian
@@ -18,8 +28,29 @@ public class Barbarian extends Unit {
 	 */
 	public Barbarian(String name, Player player) {
 		super(name, player);
+		try {
+			img = ImageIO.read(new File("Barbarian.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		this.hitpoints = 100;
 		this.moveMultiplier = 2;
 		this.attack = 20;
+	}
+
+	@Override
+	public void draw(Graphics g, int x, int y) {
+		g.drawImage(img, x, y, null);		
+	}
+
+	@Override
+	public Image getImage() {
+		if (this.img != null) {
+			return this.img;
+		} else {
+			return null;
+		}
 	}
 }

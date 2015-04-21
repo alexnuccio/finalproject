@@ -1,5 +1,8 @@
 package model;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
 /**
  * this class represents the Archer unit
  * 
@@ -32,5 +35,17 @@ public class Archer extends Unit {
 	 */
 	public boolean attack(int direction) {
 		return false;
+	}
+
+	@Override
+	public void draw(Graphics g, int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Image getImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
