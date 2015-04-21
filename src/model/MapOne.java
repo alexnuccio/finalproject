@@ -13,12 +13,12 @@ import java.io.IOException;
 public class MapOne extends JPanel {
 
 	public Tile[][] array;
-	public BufferedImage plain, dot;
+	public BufferedImage plain, guy;
 	
 	public MapOne() {
 		try {
 			plain = ImageIO.read(new File("plain-test.png"));
-			dot = ImageIO.read(new File("dot.png"));
+			guy = ImageIO.read(new File("sample-guy.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,20 +37,14 @@ public class MapOne extends JPanel {
 		
 	}
 
-	public MapOne(LayoutManager layout) {
-		super(layout);
-		// TODO Auto-generated constructor stub
+	public int getImageWidth() {
+		return plain.getWidth();
 	}
-
-	public MapOne(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
+	
+	public int getImageHeight() {
+		return plain.getHeight();
 	}
-
-	public MapOne(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -59,7 +53,7 @@ public class MapOne extends JPanel {
 				g.drawImage(plain, j * plain.getWidth(), i * plain.getHeight(), null);
 				
 				if(array[i][j].isOccupied() == true) {
-					g.drawImage(dot, j * plain.getWidth(), i * plain.getHeight(), null);
+					g.drawImage(guy, j * plain.getWidth(), i * plain.getHeight(), null);
 				}
 			}
 		}
