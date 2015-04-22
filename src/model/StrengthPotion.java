@@ -26,9 +26,9 @@ public class StrengthPotion extends Item {
 	 * @return boolean
 	 * 
 	 */
-	public boolean use() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean use(Unit u) {
+		u.attack += 10;
+		return true;
 	}
 
 }

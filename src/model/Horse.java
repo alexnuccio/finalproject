@@ -23,8 +23,8 @@ public class Horse extends Unit {
 	public Horse(String name, Player player) {
 		super(name, player);
 		this.hitpoints = 80;
+		this.maxHP = 80;
 		this.moveMultiplier = 5;
-		this.attack = 20;
 	}
 
 	@Override

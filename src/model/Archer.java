@@ -20,9 +20,8 @@ public class Archer extends Unit {
 	 */
 	public Archer(String name, Player player) {
 		super(name, player);
-		this.hitpoints = 100;
-		this.moveMultiplier = 2;
-		this.attack = 30;
+		this.hitpoints = 80;
+		this.maxHP = 80;
 	}
 
 	/**

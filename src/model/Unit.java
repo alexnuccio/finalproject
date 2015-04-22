@@ -10,7 +10,10 @@ public abstract class Unit {
 
 	public String name;
 	public Player player;
+	public int row;
+	public int col;
 	public int hitpoints;
+	public int maxHP;
 	public int moveMultiplier;
 	public int attack;
 	
@@ -27,12 +30,15 @@ public abstract class Unit {
 		this.player = player;
 		moveMultiplier = 2;
 		hitpoints = 100;
+		maxHP = 100;
 		attack = 20;
 	}
 	
 	public boolean setPosition(int row, int col, MapOne m) {
 		if(m.array[row][col].isOccupied() == false) {
 			m.array[row][col].setOccupant(this);
+			this.row = row;
+			this.col = col;
 			return true;
 		} else {
 			return false;
@@ -122,7 +128,7 @@ public abstract class Unit {
 	 * @return boolean 
 	 */
 	public boolean useItem(Item item) {
-		return false;
+		return item.use(this);
 	}
 	
 	/**
@@ -130,22 +136,60 @@ public abstract class Unit {
 	 * 
 	 * this method allows the unit to attack other units
 	 * 
-	 * @param direction (int)
+	 * @param D (Direction)
+	 * @param m (MapOne)
 	 * @return boolean
 	 */
-	public boolean attack(Direction D) {
+	public boolean attack(Direction D, MapOne m) {
 		switch(D){
 		case UP:
+			if((row - 1) < 0) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row - 1][col].isOccupied() == true) {
+				m.array[row - 1][col].getOccupant().setHitpoints(
+						m.array[row - 1][col].getOccupant(this).getHitpoints() - 
+						this.attack);
+			}
 			break;
 		case DOWN:
+			if((row + 1) > 7) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row + 1][col].isOccupied() == true) {
+				m.array[row + 1][col].getOccupant().setHitpoints(
+						m.array[row + 1][col].getOccupant(this).getHitpoints() - 
+						this.attack);
+			}
 			break;
 		case LEFT:
+			if((col - 1) < 0) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row][col - 1].isOccupied() == true) {
+				m.array[row][col - 1].setOccupant().setHitpoints(
+						m.array[row][col - 1].getOccupant(this).getHitpoints() - 
+						this.attack);
+			}
 			break;
 		case RIGHT:
+			if((col + 1) > 7) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row][col + 1].isOccupied() == true) {
+				m.array[row][col + 1].setOccupant().setHitpoints(
+						m.array[row][col + 1].getOccupant(this).getHitpoints() - 
+						this.attack);
+			}
 			break;
 		}
 		return false;
 	}
+
 	
 	/**
 	 * getName
@@ -166,7 +210,7 @@ public abstract class Unit {
 	}
 	
 	public int getRow(MapOne m) {
-		for(int i = 0; i < 8; i++) {
+		/*for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(m.array[i][j].isOccupied() == false) {
 					continue;
@@ -176,10 +220,12 @@ public abstract class Unit {
 			}
 		}
 		return -1; //-1 if it is not present in array
+		*/
+		return row;
 	}
 	
 	public int getCol(MapOne m) {
-		for(int i = 0; i < 8; i++) {
+		/*for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(m.array[i][j].isOccupied() == false) {
 					continue;
@@ -189,6 +235,12 @@ public abstract class Unit {
 			}
 		}
 		return -1; //-1 if it is not present in array
+		*/
+		return col;
+	}
+	
+	public Tile getPosition(MapOne m){
+		return m.array[row][col];
 	}
 	
 	public int getHitpoints() {
