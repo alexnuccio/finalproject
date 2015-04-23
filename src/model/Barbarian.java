@@ -34,6 +34,10 @@ public class Barbarian extends Unit {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		this.hitpoints = 100;
+		this.moveMultiplier = 2;
+		this.attack = 20;
 	}
 
 	@Override

@@ -13,10 +13,7 @@ public abstract class Unit {
 
 	public String name;
 	public Player player;
-	public int row;
-	public int col;
 	public int hitpoints;
-	public int maxHP;
 	public int moveMultiplier;
 	public int attack;
 	public static int currMove;
@@ -36,7 +33,6 @@ public abstract class Unit {
 		player.addUnit(this);
 		moveMultiplier = 2;
 		hitpoints = 100;
-		maxHP = 100;
 		attack = 20;
 	}
 	
@@ -47,8 +43,6 @@ public abstract class Unit {
 	public boolean setPosition(int row, int col, MapOne m) {
 		if(m.array[row][col].isOccupied() == false) {
 			m.array[row][col].setOccupant(this);
-			this.row = row;
-			this.col = col;
 			return true;
 		} else {
 			return false;
@@ -139,7 +133,7 @@ public abstract class Unit {
 	 * @return boolean 
 	 */
 	public boolean useItem(Item item) {
-		return item.use(this);
+		return false;
 	}
 	
 	/**
@@ -147,8 +141,7 @@ public abstract class Unit {
 	 * 
 	 * this method allows the unit to attack other units
 	 * 
-	 * @param D (Direction)
-	 * @param m (MapOne)
+	 * @param direction (int)
 	 * @return boolean
 	 */
 	public boolean attack(Direction D, MapOne m) {
@@ -226,7 +219,6 @@ public abstract class Unit {
 		}
 		return true;
 	}
-
 	
 	/**
 	 * getName
@@ -247,7 +239,7 @@ public abstract class Unit {
 	}
 	
 	public int getRow(MapOne m) {
-		/*for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(m.array[i][j].isOccupied() == false) {
 					continue;
@@ -257,12 +249,10 @@ public abstract class Unit {
 			}
 		}
 		return -1; //-1 if it is not present in array
-		*/
-		return row;
 	}
 	
 	public int getCol(MapOne m) {
-		/*for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(m.array[i][j].isOccupied() == false) {
 					continue;
@@ -272,12 +262,6 @@ public abstract class Unit {
 			}
 		}
 		return -1; //-1 if it is not present in array
-		*/
-		return col;
-	}
-	
-	public Tile getPosition(MapOne m){
-		return m.array[row][col];
 	}
 	
 	public int getHitpoints() {

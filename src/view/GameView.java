@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public class GameView extends JPanel {
 
-	MapOne map;
+	public static MapOne map;
 	public GameView() {
 		map = new MapOne();
 		this.add(map);
@@ -17,7 +17,7 @@ public class GameView extends JPanel {
 	}
 	
 	public MapOne getMap() {
-		return this.map;
+		return map;
 	}
 
 	
