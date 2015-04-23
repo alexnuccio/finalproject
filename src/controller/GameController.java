@@ -162,6 +162,7 @@ public class GameController extends JFrame{
 					int stop = player1.listUnits().size() + count;
 					for(int i = count; i < stop; i++) {
 						currUnit = (Unit) myList.get(i % myList.size());
+						currUnit.isTurn = true;
 						System.out.print("It's your turn! Enter 1 to choose to MOVE or 2 to choose ATTACK:");
 						command = input.nextInt();
 						if(command == 1) {
@@ -187,6 +188,7 @@ public class GameController extends JFrame{
 							isValid = false;
 						}
 						count++;
+						currUnit.isTurn = false;
 					}
 				} else {
 					//ai's turn

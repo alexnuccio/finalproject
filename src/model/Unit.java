@@ -16,6 +16,7 @@ public abstract class Unit {
 	public int hitpoints;
 	public int moveMultiplier;
 	public int attack;
+	public boolean isTurn;
 	public static int currMove;
 	
 	/**
@@ -28,6 +29,7 @@ public abstract class Unit {
 	 */
 	public Unit(String name, Player player) {
 		currMove = 0;
+		this.isTurn = false;
 		this.name = name;
 		this.player = player;
 		player.addUnit(this);
@@ -145,7 +147,6 @@ public abstract class Unit {
 	 * @return boolean
 	 */
 	public boolean attack(Direction D, MapOne m) {
-
 		int row, col;
 		row = this.getRow(m);
 		col = this.getCol(m);
@@ -213,7 +214,6 @@ public abstract class Unit {
 				}
 			} else {
 				return false;
-
 			}
 			break;
 		}
