@@ -2,6 +2,11 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * This class represents the Spearman unit
@@ -11,7 +16,7 @@ import java.awt.Image;
  */
 public class Spearman extends Unit {
 
-	
+	BufferedImage img;
 	/**
 	 * Spearman
 	 * 
@@ -22,21 +27,30 @@ public class Spearman extends Unit {
 	 */
 	public Spearman(String name, Player player) {
 		super(name, player);
+		try {
+			img = ImageIO.read(new File("Pikeman.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.moveMultiplier = 1;
 		this.hitpoints = 150;
-		this.attack = 20;
+		this.attack = 30;
 	}
 
 	@Override
 	public void draw(Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
+		g.drawImage(img, x, y, null);
 		
 	}
 
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.img != null) {
+			return this.img;
+		} else {
+			return null;
+		}
 	}
 	
 
