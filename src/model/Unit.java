@@ -152,12 +152,10 @@ public abstract class Unit {
 	 * @return boolean
 	 */
 	public boolean attack(Direction D, MapOne m) {
-<<<<<<< HEAD
+
 		int row, col;
 		row = this.getRow(m);
 		col = this.getCol(m);
-=======
->>>>>>> origin/master
 		switch(D){
 		case UP:
 			if((row - 1) < 0) {
@@ -166,7 +164,6 @@ public abstract class Unit {
 			}
 			if(m.array[row - 1][col].isOccupied() == true) {
 				m.array[row - 1][col].getOccupant().setHitpoints(
-<<<<<<< HEAD
 						m.array[row - 1][col].getOccupant().getHitpoints() - 
 						this.attack);
 				if(m.array[row - 1][col].getOccupant().getHitpoints() <= 0) {
@@ -174,10 +171,6 @@ public abstract class Unit {
 				}
 			} else {
 				return false;
-=======
-						m.array[row - 1][col].getOccupant(this).getHitpoints() - 
-						this.attack);
->>>>>>> origin/master
 			}
 			break;
 		case DOWN:
@@ -187,7 +180,6 @@ public abstract class Unit {
 			}
 			if(m.array[row + 1][col].isOccupied() == true) {
 				m.array[row + 1][col].getOccupant().setHitpoints(
-<<<<<<< HEAD
 						m.array[row + 1][col].getOccupant().getHitpoints() - 
 						this.attack);
 				if(m.array[row + 1][col].getOccupant().getHitpoints() <= 0) {
@@ -196,10 +188,6 @@ public abstract class Unit {
 				
 			} else {
 				return false;
-=======
-						m.array[row + 1][col].getOccupant(this).getHitpoints() - 
-						this.attack);
->>>>>>> origin/master
 			}
 			break;
 		case LEFT:
@@ -208,7 +196,6 @@ public abstract class Unit {
 				return false;
 			}
 			if(m.array[row][col - 1].isOccupied() == true) {
-<<<<<<< HEAD
 				m.array[row][col - 1].getOccupant().setHitpoints(
 						m.array[row][col - 1].getOccupant().getHitpoints() - 
 						this.attack);
@@ -217,11 +204,6 @@ public abstract class Unit {
 				}
 			} else {
 				return false;
-=======
-				m.array[row][col - 1].setOccupant().setHitpoints(
-						m.array[row][col - 1].getOccupant(this).getHitpoints() - 
-						this.attack);
->>>>>>> origin/master
 			}
 			break;
 		case RIGHT:
@@ -230,7 +212,6 @@ public abstract class Unit {
 				return false;
 			}
 			if(m.array[row][col + 1].isOccupied() == true) {
-<<<<<<< HEAD
 				m.array[row][col + 1].getOccupant().setHitpoints(
 						m.array[row][col + 1].getOccupant().getHitpoints() - 
 						this.attack);
@@ -239,11 +220,7 @@ public abstract class Unit {
 				}
 			} else {
 				return false;
-=======
-				m.array[row][col + 1].setOccupant().setHitpoints(
-						m.array[row][col + 1].getOccupant(this).getHitpoints() - 
-						this.attack);
->>>>>>> origin/master
+
 			}
 			break;
 		}
