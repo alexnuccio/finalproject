@@ -76,7 +76,7 @@ public class GameController extends JFrame{
 		System.out.print("Enter the number of Units you want for your team: ");
 		numUnits = input.nextInt();
 		System.out.println();
-		System.out.print("What type of Units? Enter 1 for Barbarians only, 2 for Horses only, or 3 for both: ");
+		System.out.print("What type of Units? Enter 1 for Barbarians only, 2 for Horses only, 3 for Spearman, or 4 for both: ");
 		typeUnits = input.nextInt();
 		switch(typeUnits) {
 		case 1:
@@ -91,13 +91,20 @@ public class GameController extends JFrame{
 				Unit horse = new Horse("horse" + i, player1);
 			}
 			break;
-		default:
-			//create both
+		case 3:
+			//create only spearman
 			for(int i = 0; i < numUnits; i++) {
-				if(i % 2 == 0) {
+				Unit spear = new Spearman("spear" + i, player1);
+			}
+		default:
+			//create all 3
+			for(int i = 0; i < numUnits; i++) {
+				if(i % 3 == 0) {
 					Unit barb1 = new Barbarian("barb1" + i, player1);
-				} else {
+				} else if(i % 3 == 1){
 					Unit horse1 = new Horse("horse1" + i, player1);
+				} else {
+					Unit spear = new Spearman("spear" + i, player1);
 				}
 			}
 		}
@@ -208,25 +215,25 @@ public class GameController extends JFrame{
 								}
 								break;
 							case 1:
-								currUnit.move(Direction.LEFT, map);
+								succeeded = currUnit.move(Direction.LEFT, map);
 								if(succeeded == false) {
 									Unit.currMove++;
 								}
 								break;
 							case 2:
-								currUnit.move(Direction.RIGHT, map);
+								succeeded = currUnit.move(Direction.RIGHT, map);
 								if(succeeded == false) {
 									Unit.currMove++;
 								}
 								break;
 							case 3:
-								currUnit.move(Direction.DOWN, map);
+								succeeded = currUnit.move(Direction.DOWN, map);
 								if(succeeded == false) {
 									Unit.currMove++;
 								}
 								break;
 							default:
-								currUnit.move(Direction.UP, map);
+								succeeded = currUnit.move(Direction.UP, map);
 								if(succeeded == false) {
 									Unit.currMove++;
 								}
