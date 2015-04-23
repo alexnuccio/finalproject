@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 /**
  * this class represents the Archer unit
@@ -10,6 +11,9 @@ import java.awt.Image;
  *
  */
 public class Archer extends Unit {	
+	
+	private BufferedImage img;
+	
 	/**
 	 * Archer
 	 * 
@@ -20,6 +24,8 @@ public class Archer extends Unit {
 	 */
 	public Archer(String name, Player player) {
 		super(name, player);
+		// load in image
+		
 		this.hitpoints = 100;
 		this.moveMultiplier = 2;
 		this.attack = 30;
@@ -45,7 +51,10 @@ public class Archer extends Unit {
 
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.img != null) {
+			return this.img;
+		} else {
+			return null;
+		}
 	}
 }

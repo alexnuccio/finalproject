@@ -2,6 +2,11 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * this class represents the horse unit
@@ -11,7 +16,7 @@ import java.awt.Image;
  */
 public class Horse extends Unit {
 
-	
+	BufferedImage img;
 	/**
 	 * Horse
 	 * 
@@ -25,18 +30,27 @@ public class Horse extends Unit {
 		this.hitpoints = 80;
 		this.moveMultiplier = 5;
 		this.attack = 20;
+		try {
+			img = ImageIO.read(new File("Horse.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void draw(Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
+		g.drawImage(img, x, y, null);
 		
 	}
 
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.img != null) {
+			return this.img;
+		} else {
+			return null;
+		}
 	}
 	
 }

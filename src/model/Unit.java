@@ -1,5 +1,8 @@
 package model;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
 /**
  * This class is the abstract Unit class. All decendents will inherit these methods
  * 
@@ -13,6 +16,7 @@ public abstract class Unit {
 	public int hitpoints;
 	public int moveMultiplier;
 	public int attack;
+	public static int currMove;
 	
 	/**
 	 * Unit
@@ -23,12 +27,18 @@ public abstract class Unit {
 	 * @param player (Player)
 	 */
 	public Unit(String name, Player player) {
+		currMove = 0;
 		this.name = name;
 		this.player = player;
+		player.addUnit(this);
 		moveMultiplier = 2;
 		hitpoints = 100;
 		attack = 20;
 	}
+	
+	public abstract void draw(Graphics g, int x, int y);
+	
+	public abstract Image getImage();
 	
 	public boolean setPosition(int row, int col, MapOne m) {
 		if(m.array[row][col].isOccupied() == false) {
@@ -110,7 +120,8 @@ public abstract class Unit {
 			}
 			break;
 		}
-		return false;
+		Unit.currMove++;
+		return true;
 	}
 	
 	/**
@@ -133,18 +144,78 @@ public abstract class Unit {
 	 * @param direction (int)
 	 * @return boolean
 	 */
-	public boolean attack(Direction D) {
+	public boolean attack(Direction D, MapOne m) {
+		int row, col;
+		row = this.getRow(m);
+		col = this.getCol(m);
 		switch(D){
 		case UP:
+			if((row - 1) < 0) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row - 1][col].isOccupied() == true) {
+				m.array[row - 1][col].getOccupant().setHitpoints(
+						m.array[row - 1][col].getOccupant().getHitpoints() - 
+						this.attack);
+				if(m.array[row - 1][col].getOccupant().getHitpoints() <= 0) {
+					m.array[row - 1][col].isOccupied = false;
+				}
+			} else {
+				return false;
+			}
 			break;
 		case DOWN:
+			if((row + 1) > 7) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row + 1][col].isOccupied() == true) {
+				m.array[row + 1][col].getOccupant().setHitpoints(
+						m.array[row + 1][col].getOccupant().getHitpoints() - 
+						this.attack);
+				if(m.array[row + 1][col].getOccupant().getHitpoints() <= 0) {
+					m.array[row + 1][col].isOccupied = false;
+				}
+				
+			} else {
+				return false;
+			}
 			break;
 		case LEFT:
+			if((col - 1) < 0) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row][col - 1].isOccupied() == true) {
+				m.array[row][col - 1].getOccupant().setHitpoints(
+						m.array[row][col - 1].getOccupant().getHitpoints() - 
+						this.attack);
+				if(m.array[row][col - 1].getOccupant().getHitpoints() <= 0) {
+					m.array[row][col - 1].isOccupied = false;
+				}
+			} else {
+				return false;
+			}
 			break;
 		case RIGHT:
+			if((col + 1) > 7) {
+				//invalid move
+				return false;
+			}
+			if(m.array[row][col + 1].isOccupied() == true) {
+				m.array[row][col + 1].getOccupant().setHitpoints(
+						m.array[row][col + 1].getOccupant().getHitpoints() - 
+						this.attack);
+				if(m.array[row][col + 1].getOccupant().getHitpoints() <= 0) {
+					m.array[row][col + 1].isOccupied = false;
+				}
+			} else {
+				return false;
+			}
 			break;
 		}
-		return false;
+		return true;
 	}
 	
 	/**

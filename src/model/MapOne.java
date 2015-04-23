@@ -13,12 +13,12 @@ import java.io.IOException;
 public class MapOne extends JPanel {
 
 	public Tile[][] array;
-	public BufferedImage plain, guy;
+	public BufferedImage plain, cursor;
 	
 	public MapOne() {
 		try {
 			plain = ImageIO.read(new File("plain-test.png"));
-			guy = ImageIO.read(new File("sample-guy.png"));
+			cursor = ImageIO.read(new File("Cursor.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,10 +53,18 @@ public class MapOne extends JPanel {
 				g.drawImage(plain, j * plain.getWidth(), i * plain.getHeight(), null);
 				
 				if(array[i][j].isOccupied() == true) {
-					g.drawImage(guy, j * plain.getWidth(), i * plain.getHeight(), null);
+					array[i][j].getOccupant().draw(g, j * plain.getWidth(), i * plain.getHeight()); //has unit occupying tile draw itself 
+				}
+				if(array[i][j].hasCursor == true) {
+					drawCursor(g, j, i);
 				}
 			}
 		}
 	}
+	
+	public void drawCursor(Graphics g, int x, int y) {
+		g.drawImage(cursor, x * cursor.getWidth(), y * cursor.getHeight(), null);
+	}
 
 }
+

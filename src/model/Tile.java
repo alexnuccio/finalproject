@@ -12,11 +12,13 @@ public abstract class Tile {
 	public boolean isOccupied;
 	public Unit occupant; //if occupied, this is the Unit occupying Tile
 	public boolean trap;
+	public boolean hasCursor;
 	
 	/**
 	 * The constructor for Tile
 	 */
 	public Tile(){
+		this.hasCursor = false;
 		this.moveCost = 1;
 		this.trap = false;
 		this.occupiable = true;
@@ -50,7 +52,7 @@ public abstract class Tile {
 	}
 	
 	public Unit getOccupant() {
-		if(this.occupant != null) {
+		if(isOccupied() == true) {
 			return this.occupant;
 		} else {
 			return null;
