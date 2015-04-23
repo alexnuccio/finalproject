@@ -21,6 +21,8 @@ public class Mage extends Unit {
 	 */
 	public Mage(String name, Player player) {
 		super(name, player);
+		this.moveMultiplier = 2;
+		this.hitpoints = 100;
 		this.attack = 10;
 	}
 

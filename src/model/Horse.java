@@ -28,9 +28,7 @@ public class Horse extends Unit {
 	public Horse(String name, Player player) {
 		super(name, player);
 		this.hitpoints = 80;
-		this.maxHP = 80;
 		this.moveMultiplier = 5;
-<<<<<<< HEAD
 		this.attack = 20;
 		try {
 			img = ImageIO.read(new File("Horse.png"));
@@ -38,8 +36,6 @@ public class Horse extends Unit {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-=======
->>>>>>> origin/master
 	}
 
 	@Override
