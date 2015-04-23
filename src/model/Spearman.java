@@ -24,7 +24,8 @@ public class Spearman extends Unit {
 		super(name, player);
 		this.moveMultiplier = 1;
 		this.hitpoints = 150;
-		this.attack = 20;
+		this.maxHP = 150;
+		this.attack = 25;
 	}
 
 	@Override

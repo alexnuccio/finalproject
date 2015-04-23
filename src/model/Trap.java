@@ -26,9 +26,9 @@ public class Trap extends Item {
 	 * @return boolean
 	 * 
 	 */
-	public boolean use() {
+	public boolean use(Unit u) {
 		// TODO Auto-generated method stub
-		return false;
+		u.getPosition(MapOne m).trap = true;
 	}
 
 }
