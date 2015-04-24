@@ -34,6 +34,7 @@ public class GameController extends JFrame{
 	Cursor curs;
 	public static boolean isValid;
 	public static boolean isAttacking;
+	static long startTime, elapsedMinutes;
 	/** 
 	 * 	This is the constructor
 	 */
@@ -76,7 +77,7 @@ public class GameController extends JFrame{
 		System.out.print("Enter the number of Units you want for your team: ");
 		numUnits = input.nextInt();
 		System.out.println();
-		System.out.print("What type of Units? Enter 1 for Barbarians only, 2 for Horses only, 3 for Spearman, or 4 for both: ");
+		System.out.print("What type of Units? Enter 1 for Barbarians only, 2 for Horses only, 3 for Spearman, or 4 for all: ");
 		typeUnits = input.nextInt();
 		switch(typeUnits) {
 		case 1:
@@ -104,7 +105,7 @@ public class GameController extends JFrame{
 				} else if(i % 3 == 1){
 					Unit horse1 = new Horse("horse1" + i, player1);
 				} else {
-					Unit spear = new Spearman("spear" + i, player1);
+					Unit spear = new Spearman("spear1" + i, player1);
 				}
 			}
 		}
@@ -119,22 +120,22 @@ public class GameController extends JFrame{
 		case 1:
 			//create only barbarians
 			for(int i = 0; i < numUnits; i++) {
-				Unit barbb = new Barbarian("barb1" + i, ai);
+				Unit barbb = new Barbarian("barb10" + i, ai);
 			}
 			break;
 		case 2:
 			//create only horses
 			for(int i = 0; i < numUnits; i++) {
-				Unit horsee = new Horse("horse1" + i, ai);
+				Unit horsee = new Horse("horse10" + i, ai);
 			}
 			break;
 		default:
 			//create both
 			for(int i = 0; i < numUnits; i++) {
 				if(i % 2 == 0) {
-					Unit barb2 = new Barbarian("barb1" + i, ai);
+					Unit barb2 = new Barbarian("barb1000" + i, ai);
 				} else {
-					Unit horse2 = new Horse("horse1" + i, ai);
+					Unit horse2 = new Horse("horse1000" + i, ai);
 				}
 			}
 			break;
@@ -159,13 +160,20 @@ public class GameController extends JFrame{
 		}
 		
 		//RUN GAME
+		startTime = System.currentTimeMillis();
+		elapsedMinutes = 0L;
 		count = 0;
 		Unit currUnit;
 		int command;
+		System.out.println();
+		System.out.println("-------------------GAME IS STARTING-------------------");
+		System.out.println("Beat the AI's team by killing all the opposing units. Take too long, YOU LOSE!");
+		System.out.println();
 		while(player1.hasWon() == false && ai.hasWon() == false) {
 			while(checkIfGameIsOver() == false) {
 				if(player1.listUnits().contains(myList.get(count % myList.size()))) {
 					//players turn
+					System.out.println("------------- Elapsed time in minutes: " + elapsedMinutes + ". Hurry up! " + (5 - elapsedMinutes) + " minutes left! -------------");
 					int stop = player1.listUnits().size() + count;
 					for(int i = count; i < stop; i++) {
 						currUnit = (Unit) myList.get(i % myList.size());
@@ -185,7 +193,7 @@ public class GameController extends JFrame{
 							//attack
 							isValid = true;
 							isAttacking = true;
-							System.out.println("Who do you want to attack? Highlight them with cursor & press 'q'");
+							System.out.println("Who do you want to attack? Highlight them with the cursor & press 'ENTER'");
 							while(Unit.currMove < currUnit.moveMultiplier){
 								//exits automatically
 								System.out.print("");
@@ -249,8 +257,10 @@ public class GameController extends JFrame{
 		
 		if(player1.hasWon()) {
 			System.out.println("Congratulations! You beat the AI's team!");
+		} else if(elapsedMinutes >= 5){
+			System.out.println("YOU LOST. My grandma can move faster than you....");
 		} else {
-			System.out.println("Come back next time with a better team and a better strategy....");
+			System.out.println("YOU LOST. Come back next time with a better team and a better strategy....");
 		}
 	
 		
@@ -258,18 +268,24 @@ public class GameController extends JFrame{
 		//System.exit(0); //decide if we want window to close or stay open when game is over
 	}
 	
-	public Unit getCurrUnit() {
+	public static Unit getCurrUnit() {
 		return myList.get(count % myList.size()); 
 	}
 	
 	private static boolean checkIfGameIsOver() {
+		elapsedMinutes = (System.currentTimeMillis() - startTime);
+		elapsedMinutes = elapsedMinutes / 1000;
+		elapsedMinutes = elapsedMinutes / 60;
 		if(player1.listUnits().isEmpty()) {
 			ai.won = true;
 			return true;
 		} else if(ai.listUnits().isEmpty()) {
 			player1.won = true;
 			return true;
-		} else {
+		} else if(elapsedMinutes >= 5) {
+			ai.won = true;
+			return true;
+		}else {
 			return false;
 		}
 	}
@@ -297,7 +313,8 @@ public class GameController extends JFrame{
 			} else  if(k.getKeyChar() == 'd'){
 				curs.move(Direction.RIGHT, map);
 				map.repaint();
-			} else if (k.getKeyChar() == 'q' && isValid) {
+			} else if (k.getKeyChar() == '\n' && isValid) {
+				currUnit = getCurrUnit();
 				int currRow = currUnit.getRow(map);
 				int currCol = currUnit.getCol(map);
 				row = curs.getRow();
