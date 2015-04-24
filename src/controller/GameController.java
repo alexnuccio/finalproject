@@ -121,12 +121,14 @@ public class GameController extends JFrame{
 			//create only barbarians
 			for(int i = 0; i < numUnits; i++) {
 				Unit barbb = new Barbarian("barb10" + i, ai);
+				barbb.setTeam(Team.AI);
 			}
 			break;
 		case 2:
 			//create only horses
 			for(int i = 0; i < numUnits; i++) {
 				Unit horsee = new Horse("horse10" + i, ai);
+				horsee.setTeam(Team.AI);
 			}
 			break;
 		default:
@@ -134,8 +136,10 @@ public class GameController extends JFrame{
 			for(int i = 0; i < numUnits; i++) {
 				if(i % 2 == 0) {
 					Unit barb2 = new Barbarian("barb1000" + i, ai);
+					barb2.setTeam(Team.AI);
 				} else {
 					Unit horse2 = new Horse("horse1000" + i, ai);
+					horse2.setTeam(Team.AI);
 				}
 			}
 			break;
@@ -143,7 +147,7 @@ public class GameController extends JFrame{
 	
 		//SPAWN ALL UNITS
 		for(int i = 0; i < player1.listUnits().size(); i++) {
-			player1.units.get(i).setPosition(7, i + 2, map);
+			player1.units.get(i).setPosition(6, i + 2, map);
 		}
 		map.repaint();
 		for(int i = 0; i < ai.listUnits().size(); i++) {

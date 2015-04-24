@@ -18,6 +18,7 @@ public abstract class Unit {
 	public int attack;
 	public boolean isTurn;
 	public static int currMove;
+	public Team team; //team unit is on (USER or AI)
 	
 	/**
 	 * Unit
@@ -36,6 +37,18 @@ public abstract class Unit {
 		moveMultiplier = 2;
 		hitpoints = 100;
 		attack = 20;
+	}
+	
+	public void setTeam(Team t) {
+		this.team = t;
+	}
+	
+	public Team getTeam() {
+		if(this.team != null) {
+			return this.team;
+		} else {
+			return null;
+		}
 	}
 	
 	public abstract void draw(Graphics g, int x, int y);
@@ -168,7 +181,7 @@ public abstract class Unit {
 			}
 			break;
 		case DOWN:
-			if((row + 1) > 7) {
+			if((row + 1) > (m.getNumRow() - 1)) {
 				//invalid move
 				return false;
 			}
@@ -201,7 +214,7 @@ public abstract class Unit {
 			}
 			break;
 		case RIGHT:
-			if((col + 1) > 7) {
+			if((col + 1) > (m.getNumCol() - 1)) {
 				//invalid move
 				return false;
 			}
@@ -239,8 +252,8 @@ public abstract class Unit {
 	}
 	
 	public int getRow(MapOne m) {
-		for(int i = 0; i < 8; i++) {
-			for(int j = 0; j < 8; j++) {
+		for(int i = 0; i < m.getNumRow(); i++) {
+			for(int j = 0; j < m.getNumCol(); j++) {
 				if(m.array[i][j].isOccupied() == false) {
 					continue;
 				} else if(m.array[i][j].getOccupant().equals(this)) {
@@ -252,8 +265,8 @@ public abstract class Unit {
 	}
 	
 	public int getCol(MapOne m) {
-		for(int i = 0; i < 8; i++) {
-			for(int j = 0; j < 8; j++) {
+		for(int i = 0; i < m.getNumRow(); i++) {
+			for(int j = 0; j < m.getNumCol(); j++) {
 				if(m.array[i][j].isOccupied() == false) {
 					continue;
 				} else if(m.array[i][j].getOccupant().equals(this)) {

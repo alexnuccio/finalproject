@@ -28,7 +28,7 @@ public class Horse extends Unit {
 	public Horse(String name, Player player) {
 		super(name, player);
 		this.hitpoints = 80;
-		this.moveMultiplier = 5;
+		this.moveMultiplier = 4;
 		this.attack = 20;
 		try {
 			img = ImageIO.read(new File("Horse.png"));

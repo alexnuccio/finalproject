@@ -12,7 +12,7 @@ public class GameView extends JPanel {
 	public GameView() {
 		map = new MapOne();
 		this.add(map);
-		this.setPreferredSize(new Dimension(8 * map.getImageWidth(), 8 * map.getImageHeight()));
+		this.setPreferredSize(new Dimension(map.getNumCol() * map.getImageWidth(), map.getNumRow() * map.getImageHeight()));
 		this.setVisible(true);
 	}
 	
