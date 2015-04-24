@@ -64,6 +64,7 @@ public class Cursor {
 			m.array[currRow][currCol].hasCursor = false;
 			break;
 		}
+		m.repaint();
 		return true;
 	}
 

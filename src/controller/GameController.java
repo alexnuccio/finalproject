@@ -307,16 +307,12 @@ public class GameController extends JFrame{
 			currUnit = getCurrUnit();
 			if(k.getKeyChar() == 'w') {
 				curs.move(Direction.UP, map);
-				map.repaint();
 			} else if(k.getKeyChar() == 'a') {
 				curs.move(Direction.LEFT, map);
-				map.repaint();
 			} else if(k.getKeyChar() == 's') {
 				curs.move(Direction.DOWN, map);
-				map.repaint();
 			} else  if(k.getKeyChar() == 'd'){
 				curs.move(Direction.RIGHT, map);
-				map.repaint();
 			} else if (k.getKeyChar() == '\n' && isValid) {
 				currUnit = getCurrUnit();
 				int currRow = currUnit.getRow(map);
@@ -336,13 +332,11 @@ public class GameController extends JFrame{
 				}
 				if(!map.array[row][col].isOccupied()) {
 					currUnit.move(d, map);
-					map.repaint();
 					return;
 				}
 				if(isAttacking) {
 					Unit attacked = map.array[row][col].getOccupant();
 					boolean didAttack = currUnit.attack(d, map);
-					map.repaint();
 					if(didAttack) {
 						System.out.println("Completed attack on enemy! Did " + currUnit.attack + " damage");
 						if(map.array[row][col].getOccupant() == null) {

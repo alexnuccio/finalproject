@@ -136,6 +136,7 @@ public abstract class Unit {
 			break;
 		}
 		Unit.currMove++;
+		m.repaint();
 		return true;
 	}
 	
@@ -230,6 +231,7 @@ public abstract class Unit {
 			}
 			break;
 		}
+		m.repaint();
 		return true;
 	}
 	
