@@ -16,13 +16,4 @@ public abstract class Item {
 	public Item() {
 		
 	}
-	
-	/**
-	 * use
-	 * 
-	 * this abstract method will be implemented by all decendents to use the selected item
-	 * 
-	 * @return boolean
-	 */
-	public abstract boolean use();
 }

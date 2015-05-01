@@ -14,6 +14,7 @@ public abstract class Unit {
 	public String name;
 	public Player player;
 	public int hitpoints;
+	public int maxhp;
 	public int moveMultiplier;
 	public int attack;
 	public boolean isTurn;
@@ -35,7 +36,7 @@ public abstract class Unit {
 		this.player = player;
 		player.addUnit(this);
 		moveMultiplier = 2;
-		hitpoints = 100;
+		hitpoints = maxhp = 100;
 		attack = 20;
 	}
 	
@@ -149,7 +150,23 @@ public abstract class Unit {
 	 * @return boolean 
 	 */
 	public boolean useItem(Item item) {
-		return false;
+		if(item instanceof HealthPotion){
+			if(maxhp > hitpoints){
+				if(hitpoints < maxhp-30){
+					hitpoints += 30;
+				}else{
+					hitpoints = maxhp;
+				}
+				return true;
+			}else{
+				return false;
+			}
+		}else if(item instanceof StrengthPotion){
+			attack += 20;
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	/**

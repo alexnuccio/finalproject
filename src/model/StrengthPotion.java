@@ -18,17 +18,4 @@ public class StrengthPotion extends Item {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * use()
-	 * 
-	 * applies a strength potion to the Player that used it
-	 * 
-	 * @return boolean
-	 * 
-	 */
-	public boolean use() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
