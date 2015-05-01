@@ -129,10 +129,6 @@ public class Archer extends Unit {
 
 	@Override
 	public Image getImage() {
-		if (this.img != null) {
-			return this.img;
-		} else {
-			return null;
-		}
+		return this.img;
 	}
 }

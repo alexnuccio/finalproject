@@ -271,7 +271,6 @@ public class Mage extends Unit {
 	
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.img;
 	}
 }
