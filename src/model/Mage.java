@@ -2,6 +2,11 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * This class represents the Mage unit
@@ -10,7 +15,7 @@ import java.awt.Image;
  *
  */
 public class Mage extends Unit {
-
+	BufferedImage img;
 	/**
 	 * Mage
 	 * 
@@ -21,6 +26,11 @@ public class Mage extends Unit {
 	 */
 	public Mage(String name, Player player) {
 		super(name, player);
+		try {
+			img = ImageIO.read(new File("Mage.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.moveMultiplier = 2;
 		this.hitpoints = 100;
 		this.attack = 10;
@@ -28,8 +38,7 @@ public class Mage extends Unit {
 
 	@Override
 	public void draw(Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(img, x, y, null);
 	}
 	
 	public boolean attack(Direction D, MapOne m) {

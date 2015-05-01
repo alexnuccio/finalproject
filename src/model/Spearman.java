@@ -30,7 +30,6 @@ public class Spearman extends Unit {
 		try {
 			img = ImageIO.read(new File("Pikeman.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.moveMultiplier = 1;

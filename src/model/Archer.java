@@ -3,6 +3,10 @@ package model;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * this class represents the Archer unit
@@ -25,7 +29,11 @@ public class Archer extends Unit {
 	public Archer(String name, Player player) {
 		super(name, player);
 		// load in image
-		
+		try {
+			img = ImageIO.read(new File("Archer.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.hitpoints = 100;
 		this.moveMultiplier = 2;
 		this.attack = 30;
@@ -116,8 +124,7 @@ public class Archer extends Unit {
 
 	@Override
 	public void draw(Graphics g, int x, int y) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(img, x, y, null);
 	}
 
 	@Override
