@@ -33,7 +33,7 @@ public class Spearman extends Unit {
 			e.printStackTrace();
 		}
 		this.moveMultiplier = 1;
-		this.hitpoints = 150;
+		this.hitpoints = this.maxhp = 150;
 		this.attack = 30;
 	}
 

@@ -164,6 +164,9 @@ public abstract class Unit {
 		}else if(item instanceof StrengthPotion){
 			attack += 20;
 			return true;
+		}else if(item instanceof SpeedShoes){
+			moveMultiplier++;
+			return true;
 		}else{
 			return false;
 		}

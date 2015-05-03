@@ -34,7 +34,7 @@ public class Archer extends Unit {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.hitpoints = 100;
+		this.hitpoints = this.maxhp = 100;
 		this.moveMultiplier = 2;
 		this.attack = 30;
 	}

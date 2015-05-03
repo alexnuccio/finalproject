@@ -32,7 +32,7 @@ public class Mage extends Unit {
 			e.printStackTrace();
 		}
 		this.moveMultiplier = 2;
-		this.hitpoints = 100;
+		this.hitpoints = this.maxhp = 100;
 		this.attack = 10;
 	}
 
