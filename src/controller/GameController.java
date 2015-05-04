@@ -33,118 +33,31 @@ public class GameController extends JFrame{
 	static int count;
 	Cursor curs;
 	public static boolean isValid;
-	public static boolean isAttacking;
+	public static boolean isAttacking, isMoving;
 	static long startTime, elapsedMinutes;
+	static JComboBox<String> box1, box2, box3, box4, box5, box6, box7, box8, box9, box10, mapBox;
+	static JButton createButton;
+	public static boolean gameIsSetup;
 	/** 
 	 * 	This is the constructor
 	 */
-	public GameController(){
+	public GameController(Player player1, Player ai, MapOne m){
 		
 		isValid = false;
 		isAttacking = false;
+		isMoving = false;
 		keySet = new TreeSet<Character>();
 		mainPanel = new JPanel();
 		
-		GameView view = new GameView();
+		GameView view = new GameView(m);
 		
-		map = view.getMap();
+		map = m;
 		curs = new Cursor();
 		curs.setPosition(0, 0, map);
 
-		mainPanel.add(view);
-		this.addKeyListener(new keyListener());
-		this.add(mainPanel);
-		setVisible(true);
-		this.pack();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);//kill the application when the window is closed
-	}
-	/**
-	 * The main method
-	 * @param args
-	 * Command-line arguments
-	 */
-	public static void main(String[] args){
-		new GameController();
-		isValid = false;
-		isAttacking = false;
+		this.player1 = player1;
+		this.ai = ai;
 		
-		Scanner input = new Scanner(System.in);
-		player1 = new Player();
-		ai = new Player();
-		int numUnits, typeUnits;
-		
-		//CREATE PLAYER UNITS
-		System.out.print("Enter the number of Units you want for your team: ");
-		numUnits = input.nextInt();
-		System.out.println();
-		System.out.print("What type of Units? Enter 1 for Barbarians only, 2 for Horses only, 3 for Spearman, or 4 for all: ");
-		typeUnits = input.nextInt();
-		switch(typeUnits) {
-		case 1:
-			//create only barbarians
-			for(int i = 0; i < numUnits; i++) {
-				Unit barb = new Barbarian("barb" + i, player1);
-			}
-			break;
-		case 2:
-			//create only horses
-			for(int i = 0; i < numUnits; i++) {
-				Unit horse = new Horse("horse" + i, player1);
-			}
-			break;
-		case 3:
-			//create only spearman
-			for(int i = 0; i < numUnits; i++) {
-				Unit spear = new Spearman("spear" + i, player1);
-			}
-		default:
-			//create all 3
-			for(int i = 0; i < numUnits; i++) {
-				if(i % 3 == 0) {
-					Unit barb1 = new Barbarian("barb1" + i, player1);
-				} else if(i % 3 == 1){
-					Unit horse1 = new Horse("horse1" + i, player1);
-				} else {
-					Unit spear = new Spearman("spear1" + i, player1);
-				}
-			}
-		}
-		
-		//CREATE AI UNITS
-		System.out.print("Enter the number of Units you want for the AI's team: ");
-		numUnits = input.nextInt();
-		System.out.println();
-		System.out.print("What type of Units? Enter 1 for Barbarians only, 2 for Horses only, or 3 for both: ");
-		typeUnits = input.nextInt();
-		switch(typeUnits) {
-		case 1:
-			//create only barbarians
-			for(int i = 0; i < numUnits; i++) {
-				Unit barbb = new Barbarian("barb10" + i, ai);
-				barbb.setTeam(Team.AI);
-			}
-			break;
-		case 2:
-			//create only horses
-			for(int i = 0; i < numUnits; i++) {
-				Unit horsee = new Horse("horse10" + i, ai);
-				horsee.setTeam(Team.AI);
-			}
-			break;
-		default:
-			//create both
-			for(int i = 0; i < numUnits; i++) {
-				if(i % 2 == 0) {
-					Unit barb2 = new Barbarian("barb1000" + i, ai);
-					barb2.setTeam(Team.AI);
-				} else {
-					Unit horse2 = new Horse("horse1000" + i, ai);
-					horse2.setTeam(Team.AI);
-				}
-			}
-			break;
-		}
-	
 		//SPAWN ALL UNITS
 		for(int i = 0; i < player1.listUnits().size(); i++) {
 			player1.units.get(i).setPosition(6, i + 2, map);
@@ -163,57 +76,66 @@ public class GameController extends JFrame{
 			myList.add(ai.listUnits().get(i));
 		}
 		
-		//RUN GAME
+		
+		mainPanel.add(view);
+		this.addKeyListener(new keyListener());
+		this.add(mainPanel);
+		this.setVisible(true);
+		pack();
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);//kill the application when the window is closed
+		
+		Thread myThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				runGame(); //run method in seperate thread
+			}
+			
+		});
+		
+		myThread.start(); //runs the game by starting the thread that runs it
+		
+		
+		
+	}
+	
+	public void runGame() {
+		
+		map.repaint();
 		startTime = System.currentTimeMillis();
 		elapsedMinutes = 0L;
 		count = 0;
 		Unit currUnit;
-		int command;
-		System.out.println();
-		System.out.println("-------------------GAME IS STARTING-------------------");
-		System.out.println("Beat the AI's team by killing all the opposing units. Take too long, YOU LOSE!");
-		System.out.println();
 		while(player1.hasWon() == false && ai.hasWon() == false) {
 			while(checkIfGameIsOver() == false) {
 				if(player1.listUnits().contains(myList.get(count % myList.size()))) {
 					//players turn
-					System.out.println("------------- Elapsed time in minutes: " + elapsedMinutes + ". Hurry up! " + (5 - elapsedMinutes) + " minutes left! -------------");
 					int stop = player1.listUnits().size() + count;
 					for(int i = count; i < stop; i++) {
 						currUnit = (Unit) myList.get(i % myList.size());
 						currUnit.isTurn = true;
-						System.out.print("It's your turn! Enter 1 to choose to MOVE or 2 to choose ATTACK:");
-						command = input.nextInt();
-						if(command == 1) {
-							isValid = true;
-							System.out.println("Your Unit can move " + currUnit.moveMultiplier + " squares. Use 'W', 'A', 'S', 'D' to move");
-							while(Unit.currMove < currUnit.moveMultiplier) {
-								//exits automatically
-								System.out.print("");
-							}
-							Unit.currMove = 0;
-							isValid = false;
-						} else {
-							//attack
-							isValid = true;
-							isAttacking = true;
-							System.out.println("Who do you want to attack? Highlight them with the cursor & press 'ENTER'");
-							while(Unit.currMove < currUnit.moveMultiplier){
-								//exits automatically
-								System.out.print("");
-							}
-							Unit.currMove = 0;
-							isAttacking = false;
-							isValid = false;
+						map.repaint();
+						JOptionPane.showMessageDialog(null, "Your turn! Move to an empty tile, attack an enemy in an\n adjacent tile, press 'i' to use item, or\n press 'n' to do nothing.");
+						isValid = true;
+						isMoving = false;
+						while(Unit.currMove < currUnit.moveMultiplier) {
+							//exits automatically
+							System.out.print("");
 						}
+						Unit.currMove = 0;
+						isValid = false;
 						count++;
 						currUnit.isTurn = false;
+						map.repaint();
 					}
+				
 				} else {
 					//ai's turn
 					int stop = ai.listUnits().size() + count;
 					for(int i = count; i < stop; i++) {
 						currUnit = (Unit) myList.get(i % myList.size());
+						//generate move for ai's currUnit
 						Random rand = new Random();
 						while(Unit.currMove < currUnit.moveMultiplier) {
 							//generate random moves
@@ -253,23 +175,241 @@ public class GameController extends JFrame{
 						} //end of while
 						Unit.currMove = 0;
 						count++;
-					} //end of for
-				} //end of if/else
-				
-			}//end of second inner while
-		}//end of outer while
+						
+						
+					}
+					
+				}
+			} //end of second outer while
+		} //end of outer while
+		
 		
 		if(player1.hasWon()) {
-			System.out.println("Congratulations! You beat the AI's team!");
+			JOptionPane.showMessageDialog(null, "Congratulations! You beat the AI's team!");
 		} else if(elapsedMinutes >= 5){
-			System.out.println("YOU LOST. My grandma can move faster than you....");
+			JOptionPane.showMessageDialog(null, "YOU LOST. My grandma can move faster than you....");
 		} else {
-			System.out.println("YOU LOST. Come back next time with a better team and a better strategy....");
+			JOptionPane.showMessageDialog(null, "YOU LOST. Come back next time with a better team and a better strategy....");
 		}
+	} //end of runGame()
 	
+	/**
+	 * The main method
+	 * @param args
+	 * Command-line arguments
+	 */
+	public static void main(String[] args){
 		
-		input.close(); //close Scanner
-		//System.exit(0); //decide if we want window to close or stay open when game is over
+		player1 = new Player();
+		ai = new Player();
+		JFrame firstFrame = new JFrame("Barbarians");
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		firstFrame.add(mainPanel);
+		JPanel playerPanel = new JPanel();
+		playerPanel.setLayout(new GridLayout(1, 6));
+		JPanel aiPanel = new JPanel();
+		aiPanel.setLayout(new GridLayout(1, 6));
+		
+		JLabel playerLabel = new JLabel("Pick your units:");
+		String[] unitsPossible = { "", "Barbarian", "Horse", "Mage", "Spearman", "Archer" };
+		box1 = new JComboBox<String>(unitsPossible);
+		box2 = new JComboBox<String>(unitsPossible);
+		box3 = new JComboBox<String>(unitsPossible);
+		box4 = new JComboBox<String>(unitsPossible);
+		box5 = new JComboBox<String>(unitsPossible);
+		playerPanel.add(playerLabel);
+		playerPanel.add(box1);
+		playerPanel.add(box2);
+		playerPanel.add(box3);
+		playerPanel.add(box4);
+		playerPanel.add(box5);
+		
+		JLabel aiLabel = new JLabel("Pick the AI's units:");
+		box6 = new JComboBox<String>(unitsPossible);
+		box7 = new JComboBox<String>(unitsPossible);
+		box8 = new JComboBox<String>(unitsPossible);
+		box9 = new JComboBox<String>(unitsPossible);
+		box10 = new JComboBox<String>(unitsPossible);
+		aiPanel.add(aiLabel);
+		aiPanel.add(box6);
+		aiPanel.add(box7);
+		aiPanel.add(box8);
+		aiPanel.add(box9);
+		aiPanel.add(box10);
+		
+		JPanel mapPanel = new JPanel();
+		mapPanel.setLayout(new BoxLayout(mapPanel, BoxLayout.Y_AXIS));
+		JLabel mapLabel = new JLabel("Pick the map:");
+		String[] maps = { "Map 1", "Map 2" };
+		mapBox = new JComboBox<String>(maps);
+		createButton = new JButton("SETUP GAME");
+		createButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(box1.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box1.getSelectedIndex() == 1) {
+					Unit barb = new Barbarian("barb1", player1);
+				} else if(box1.getSelectedIndex() == 2) {
+					Unit horse = new Horse("horse1", player1);
+				} else if(box1.getSelectedIndex() == 3) {
+					Unit mage = new Mage("mage1", player1);
+				} else if(box1.getSelectedIndex() == 4){
+					Unit spear = new Spearman("spear1", player1);
+				} else {
+					Unit arch = new Archer("arch1", player1);
+				}
+				if(box2.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box2.getSelectedIndex() == 1) {
+					Unit barb1 = new Barbarian("barb11", player1);
+				} else if(box2.getSelectedIndex() == 2) {
+					Unit horse1 = new Horse("horse11", player1);
+				} else if(box2.getSelectedIndex() == 3) {
+					Unit mage1 = new Mage("mage11", player1);
+				} else if(box2.getSelectedIndex() == 4){
+					Unit spear1 = new Spearman("spear11", player1);
+				} else {
+					Unit arch1 = new Archer("arch11", player1);
+				}
+				if(box3.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box3.getSelectedIndex() == 1) {
+					Unit barb2 = new Barbarian("barb12", player1);
+				} else if(box3.getSelectedIndex() == 2) {
+					Unit horse2 = new Horse("horse12", player1);
+				} else if(box3.getSelectedIndex() == 3) {
+					Unit mage2 = new Mage("mage12", player1);
+				} else if(box3.getSelectedIndex() == 4){
+					Unit spear2 = new Spearman("spear12", player1);
+				} else {
+					Unit arch2 = new Archer("arch12", player1);
+				}
+				if(box4.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box4.getSelectedIndex() == 1) {
+					Unit barb3 = new Barbarian("barb13", player1);
+				} else if(box4.getSelectedIndex() == 2) {
+					Unit horse3 = new Horse("horse13", player1);
+				} else if(box4.getSelectedIndex() == 3) {
+					Unit mage3 = new Mage("mage13", player1);
+				} else if(box4.getSelectedIndex() == 4){
+					Unit spear3 = new Spearman("spear13", player1);
+				} else {
+					Unit arch3 = new Archer("arch13", player1);
+				}
+				if(box5.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box5.getSelectedIndex() == 1) {
+					Unit barb4 = new Barbarian("barb14", player1);
+				} else if(box5.getSelectedIndex() == 2) {
+					Unit horse4 = new Horse("horse14", player1);
+				} else if(box5.getSelectedIndex() == 3) {
+					Unit mage4 = new Mage("mage14", player1);
+				} else if(box5.getSelectedIndex() == 4){
+					Unit spear4 = new Spearman("spear14", player1);
+				} else {
+					Unit arch4 = new Archer("arch14", player1);
+				}
+				
+				//ai's units
+				if(box6.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box6.getSelectedIndex() == 1) {
+					Unit barb5 = new Barbarian("barb15", ai);
+				} else if(box6.getSelectedIndex() == 2) {
+					Unit horse5 = new Horse("horse15", ai);
+				} else if(box6.getSelectedIndex() == 3) {
+					Unit mage5 = new Mage("mage15", ai);
+				} else if(box6.getSelectedIndex() == 4){
+					Unit spear5 = new Spearman("spear15", ai);
+				} else {
+					Unit arch5 = new Archer("arch15", ai);
+				}
+				if(box7.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box7.getSelectedIndex() == 1) {
+					Unit barb51 = new Barbarian("barb151", ai);
+				} else if(box7.getSelectedIndex() == 2) {
+					Unit horse51 = new Horse("horse151", ai);
+				} else if(box7.getSelectedIndex() == 3) {
+					Unit mage51 = new Mage("mage151", ai);
+				} else if(box7.getSelectedIndex() == 4){
+					Unit spear51 = new Spearman("spear151", ai);
+				} else {
+					Unit arch51 = new Archer("arch151", ai);
+				}
+				if(box8.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box8.getSelectedIndex() == 1) {
+					Unit barb52 = new Barbarian("barb152", ai);
+				} else if(box8.getSelectedIndex() == 2) {
+					Unit horse52 = new Horse("horse152", ai);
+				} else if(box8.getSelectedIndex() == 3) {
+					Unit mage25 = new Mage("mage152", ai);
+				} else if(box8.getSelectedIndex() == 4){
+					Unit spear52 = new Spearman("spear152", ai);
+				} else {
+					Unit arch52 = new Archer("arch152", ai);
+				}
+				if(box9.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box9.getSelectedIndex() == 1) {
+					Unit barb53 = new Barbarian("barb153", ai);
+				} else if(box9.getSelectedIndex() == 2) {
+					Unit horse53 = new Horse("horse153", ai);
+				} else if(box9.getSelectedIndex() == 3) {
+					Unit mage53 = new Mage("mage153", ai);
+				} else if(box9.getSelectedIndex() == 4){
+					Unit spear53 = new Spearman("spear153", ai);
+				} else {
+					Unit arch53 = new Archer("arch153", ai);
+				}
+				if(box10.getSelectedIndex() == 0) {
+					// don't create anything
+				} else if(box10.getSelectedIndex() == 1) {
+					Unit barb54 = new Barbarian("barb154", ai);
+				} else if(box10.getSelectedIndex() == 2) {
+					Unit horse54 = new Horse("horse154", ai);
+				} else if(box10.getSelectedIndex() == 3) {
+					Unit mage54 = new Mage("mage154", ai);
+				} else if(box10.getSelectedIndex() == 4){
+					Unit spear54 = new Spearman("spear154", ai);
+				} else {
+					Unit arch54 = new Archer("arch154", ai);
+				}
+				//set teams
+				for(int i = 0; i < player1.listUnits().size(); i++) {
+					player1.listUnits().get(i).setTeam(Team.USER);
+				}
+				for(int i = 0; i < ai.listUnits().size(); i++) {
+					ai.listUnits().get(i).setTeam(Team.AI);
+				}
+				if(mapBox.getSelectedIndex() == 0) {
+					map = new MapOne();
+				} else {
+					map = new MapTwo();
+				}
+				gameIsSetup = true;
+				
+				new GameController(player1, ai, map);
+			}
+			
+		});
+		mapPanel.add(mapLabel);
+		mapPanel.add(mapBox);
+		mapPanel.add(createButton);
+		
+		mainPanel.add(playerPanel, BorderLayout.NORTH);
+		mainPanel.add(aiPanel, BorderLayout.SOUTH);
+		mainPanel.add(mapPanel, BorderLayout.EAST);
+		firstFrame.setVisible(true);
+		firstFrame.pack();
+		
+	
 	}
 	
 	public static Unit getCurrUnit() {
@@ -296,7 +436,6 @@ public class GameController extends JFrame{
 	
 	
 	
-	
 	private class keyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent k) {
@@ -313,6 +452,9 @@ public class GameController extends JFrame{
 				curs.move(Direction.DOWN, map);
 			} else  if(k.getKeyChar() == 'd'){
 				curs.move(Direction.RIGHT, map);
+			} else if(k.getKeyChar() == 'n' && isValid) {
+				//do nothing
+				Unit.currMove = currUnit.moveMultiplier;
 			} else if (k.getKeyChar() == '\n' && isValid) {
 				currUnit = getCurrUnit();
 				int currRow = currUnit.getRow(map);
@@ -332,29 +474,34 @@ public class GameController extends JFrame{
 				}
 				if(!map.array[row][col].isOccupied()) {
 					currUnit.move(d, map);
+					isAttacking = false;
+					isMoving = true;
 					return;
-				}
-				if(isAttacking) {
-					Unit attacked = map.array[row][col].getOccupant();
-					boolean didAttack = currUnit.attack(d, map);
-					if(didAttack) {
-						System.out.println("Completed attack on enemy! Did " + currUnit.attack + " damage");
-						if(map.array[row][col].getOccupant() == null) {
-							//if occupant of square just attacked is null, then unit was killed
-							System.out.println("KILLED ENEMY: " + attacked.name);
-							myList.remove((Unit) attacked); //remove unit from list
-							//check whos team unit was on
-							if(player1.listUnits().contains((Unit) attacked)) {
-								//killed unit was on player's team
-								player1.units.remove((Unit) attacked);
-							} else {
-								ai.units.remove((Unit) attacked);
+				} else {
+					if(isMoving == true) {
+						//cant move there
+						JOptionPane.showMessageDialog(GameController.this, "CAN'T MOVE THERE");
+					} else {
+						Unit attacked = map.array[row][col].getOccupant();
+						boolean didAttack = currUnit.attack(d, map);
+						if(didAttack) {
+							System.out.println("Completed attack on enemy! Did " + currUnit.attack + " damage");
+							if(map.array[row][col].getOccupant() == null) {
+								//if occupant of square just attacked is null, then unit was killed
+								System.out.println("KILLED ENEMY: " + attacked.name);
+								myList.remove((Unit) attacked); //remove unit from list
+								//check whos team unit was on
+								if(player1.listUnits().contains((Unit) attacked)) {
+									//killed unit was on player's team
+									player1.units.remove((Unit) attacked);
+								} else {
+									ai.units.remove((Unit) attacked);
+								}
 							}
 						}
+						Unit.currMove = currUnit.moveMultiplier;
 					}
-					Unit.currMove = currUnit.moveMultiplier;
 				}
-				Unit.currMove++;
 				
 			} else {
 				//do nothing
