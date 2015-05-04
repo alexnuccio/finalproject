@@ -35,7 +35,7 @@ public class Barbarian extends Unit {
 			e.printStackTrace();
 		}
 		
-		this.hitpoints = 100;
+		this.hitpoints = this.maxhp = 100;
 		this.moveMultiplier = 2;
 		this.attack = 20;
 	}

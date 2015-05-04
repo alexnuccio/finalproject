@@ -1,5 +1,12 @@
 package model;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 /**
  * this class represents a StrenghPotion
  * 
@@ -8,6 +15,7 @@ package model;
  */
 public class StrengthPotion extends Item {
 
+	public BufferedImage img;
 	/**
 	 * StrengthPotion
 	 * 
@@ -15,20 +23,17 @@ public class StrengthPotion extends Item {
 	 * 
 	 */
 	public StrengthPotion() {
-		// TODO Auto-generated constructor stub
+		try {
+			img = ImageIO.read(new File("strength-potion.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * use()
-	 * 
-	 * applies a strength potion to the Player that used it
-	 * 
-	 * @return boolean
-	 * 
-	 */
-	public boolean use() {
-		// TODO Auto-generated method stub
-		return false;
+	@Override
+	public void draw(Graphics g, int x, int y) {
+		g.drawImage(img, x, y, null);
 	}
 
 }

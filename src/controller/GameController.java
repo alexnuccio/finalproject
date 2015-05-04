@@ -38,11 +38,13 @@ public class GameController extends JFrame{
 	static JComboBox<String> box1, box2, box3, box4, box5, box6, box7, box8, box9, box10, mapBox;
 	static JButton createButton;
 	public static boolean gameIsSetup;
+	static JFrame firstFrame;
 	/** 
 	 * 	This is the constructor
 	 */
 	public GameController(Player player1, Player ai, MapOne m){
 		
+		firstFrame.setVisible(false);
 		isValid = false;
 		isAttacking = false;
 		isMoving = false;
@@ -68,6 +70,14 @@ public class GameController extends JFrame{
 		}
 		map.repaint();
 		
+		//SPAWN ALL ITEMS
+		Item health = new HealthPotion();
+		Item speed = new SpeedShoes();
+		Item strength = new StrengthPotion();
+		health.setPosition(3, 1, m);
+		speed.setPosition(3, 2, m);
+		strength.setPosition(3, 3, m);
+		
 		myList = new ArrayList<Unit>(); // array list to hold all units (only living units)
 		for(int i = 0; i < player1.listUnits().size(); i++) {
 			myList.add(player1.listUnits().get(i));
@@ -81,7 +91,7 @@ public class GameController extends JFrame{
 		this.addKeyListener(new keyListener());
 		this.add(mainPanel);
 		this.setVisible(true);
-		pack();
+		this.pack();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);//kill the application when the window is closed
 		
 		Thread myThread = new Thread(new Runnable() {
@@ -202,7 +212,7 @@ public class GameController extends JFrame{
 		
 		player1 = new Player();
 		ai = new Player();
-		JFrame firstFrame = new JFrame("Barbarians");
+		firstFrame = new JFrame("Barbarians");
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		firstFrame.add(mainPanel);
@@ -455,6 +465,39 @@ public class GameController extends JFrame{
 			} else if(k.getKeyChar() == 'n' && isValid) {
 				//do nothing
 				Unit.currMove = currUnit.moveMultiplier;
+			} else if (k.getKeyChar() == 'i' && isValid) {
+				//use item
+				if(player1.listItems().isEmpty() == true) {
+					JOptionPane.showMessageDialog(null, "You have no items! Try something else:");
+					return;
+				} else {
+					String command = JOptionPane.showInputDialog(null, "Select an item to use! Enter 1 for health potion,\n 2 for strength potion, or 3\n for speed shoes: ");
+					if(command.equals("1")) {
+						if(player1.listItems().contains(new HealthPotion()) == false) {
+							JOptionPane.showMessageDialog(null, "You don't have any health potions, try something else: ");
+							return;
+						}
+						currUnit = getCurrUnit();
+						currUnit.useItem(new HealthPotion());
+						Unit.currMove = currUnit.moveMultiplier;
+					} else if(command.equals("2")) {
+						if(player1.listItems().contains(new StrengthPotion()) == false) {
+							JOptionPane.showMessageDialog(null, "You don't have any strength potions, try something else: ");
+							return;
+						}
+						currUnit = getCurrUnit();
+						currUnit.useItem(new StrengthPotion());
+						Unit.currMove = currUnit.moveMultiplier;
+					} else {
+						if(player1.listItems().contains(new SpeedShoes()) == false) {
+							JOptionPane.showMessageDialog(null, "You don't have any speed shoes, try something else: ");
+							return;
+						}
+						currUnit = getCurrUnit();
+						currUnit.useItem(new SpeedShoes());
+						Unit.currMove = currUnit.moveMultiplier;
+					}
+				}
 			} else if (k.getKeyChar() == '\n' && isValid) {
 				currUnit = getCurrUnit();
 				int currRow = currUnit.getRow(map);
@@ -485,7 +528,7 @@ public class GameController extends JFrame{
 						Unit attacked = map.array[row][col].getOccupant();
 						boolean didAttack = currUnit.attack(d, map);
 						if(didAttack) {
-							System.out.println("Completed attack on enemy! Did " + currUnit.attack + " damage");
+							JOptionPane.showMessageDialog(null, "Completed attack on enemy! Did " + currUnit.attack + " damage");
 							if(map.array[row][col].getOccupant() == null) {
 								//if occupant of square just attacked is null, then unit was killed
 								System.out.println("KILLED ENEMY: " + attacked.name);
@@ -498,6 +541,9 @@ public class GameController extends JFrame{
 									ai.units.remove((Unit) attacked);
 								}
 							}
+						} else {
+							JOptionPane.showMessageDialog(null, "INVALID ATTACK, RETRY: ");
+							return;
 						}
 						Unit.currMove = currUnit.moveMultiplier;
 					}

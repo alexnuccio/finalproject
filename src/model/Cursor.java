@@ -22,9 +22,14 @@ public class Cursor {
 	}
 	
 	public void setPosition(int x, int y, MapOne m) {
-		this.row = x;
-		this.col = y;
-		m.array[x][y].hasCursor = true;
+		if((x >= 0 && x < m.getNumRow()) && (y >= 0 && y < m.getNumCol())) {
+			this.row = x;
+			this.col = y;
+			m.array[x][y].hasCursor = true;
+		} else {
+			//invalid move
+			return;
+		}
 	}
 	
 	public boolean move(Direction d, MapOne m) {

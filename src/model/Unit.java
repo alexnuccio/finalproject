@@ -14,6 +14,7 @@ public abstract class Unit {
 	public String name;
 	public Player player;
 	public int hitpoints;
+	public int maxhp;
 	public int moveMultiplier;
 	public int attack;
 	public boolean isTurn;
@@ -35,7 +36,7 @@ public abstract class Unit {
 		this.player = player;
 		player.addUnit(this);
 		moveMultiplier = 2;
-		hitpoints = 100;
+		hitpoints = maxhp = 100;
 		attack = 20;
 	}
 	
@@ -83,9 +84,14 @@ public abstract class Unit {
 				//invalid move
 				return false;
 			}
-			if(m.array[currRow - 1][currCol].isOccupied() == true) {
+			if(m.array[currRow - 1][currCol].isOccupied() == true || m.array[currRow - 1][currCol].isOccupiable() == false) {
 				return false;
 			} else if ((currRow - 1) >= 0) {
+				if(m.array[currRow - 1][currCol].hasItem == true) {
+					//if tile we're moving to has an item
+					this.player.addItem(m.array[currRow - 1][currCol].getItem());
+					m.array[currRow - 1][currCol].hasItem = false;
+				}
 				m.array[currRow - 1][currCol].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
 			} else {
@@ -97,9 +103,14 @@ public abstract class Unit {
 				//invalid move
 				return false;
 			}
-			if(m.array[currRow + 1][currCol].isOccupied() == true) {
+			if(m.array[currRow + 1][currCol].isOccupied() == true || m.array[currRow + 1][currCol].isOccupiable() == false) {
 				return false;
 			} else if ((currRow + 1) <= 7) {
+				if(m.array[currRow + 1][currCol].hasItem == true) {
+					//if tile we're moving to has an item
+					this.player.addItem(m.array[currRow + 1][currCol].getItem());
+					m.array[currRow + 1][currCol].hasItem = false;
+				}
 				m.array[currRow + 1][currCol].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
 			} else {
@@ -111,9 +122,14 @@ public abstract class Unit {
 				//invalid move
 				return false;
 			}
-			if(m.array[currRow][currCol - 1].isOccupied() == true) {
+			if(m.array[currRow][currCol - 1].isOccupied() == true || m.array[currRow][currCol - 1].isOccupiable() == false) {
 				return false;
 			} else if ((currCol - 1) >= 0) {
+				if(m.array[currRow][currCol - 1].hasItem == true) {
+					//if tile we're moving to has an item
+					this.player.addItem(m.array[currRow][currCol - 1].getItem());
+					m.array[currRow][currCol - 1].hasItem = false;
+				}
 				m.array[currRow][currCol - 1].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
 			}else {
@@ -125,9 +141,14 @@ public abstract class Unit {
 				//invalid move
 				return false;
 			}
-			if(m.array[currRow][currCol + 1].isOccupied() == true) {
+			if(m.array[currRow][currCol + 1].isOccupied() == true || m.array[currRow][currCol + 1].isOccupiable() == false) {
 				return false;
 			} else if ((currCol + 1) <= 7) {
+				if(m.array[currRow][currCol + 1].hasItem == true) {
+					//if tile we're moving to has an item
+					this.player.addItem(m.array[currRow][currCol + 1].getItem());
+					m.array[currRow][currCol + 1].hasItem = false;
+				}
 				m.array[currRow][currCol + 1].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
 			}else {
@@ -149,7 +170,26 @@ public abstract class Unit {
 	 * @return boolean 
 	 */
 	public boolean useItem(Item item) {
-		return false;
+		if(item instanceof HealthPotion){
+			if(maxhp > hitpoints){
+				if(hitpoints < maxhp-30){
+					hitpoints += 30;
+				}else{
+					hitpoints = maxhp;
+				}
+				return true;
+			}else{
+				return false;
+			}
+		}else if(item instanceof StrengthPotion){
+			attack += 20;
+			return true;
+		}else if(item instanceof SpeedShoes){
+			moveMultiplier++;
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	/**

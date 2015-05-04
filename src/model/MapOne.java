@@ -76,6 +76,9 @@ public class MapOne extends JPanel {
 				if(array[i][j].hasCursor == true) {
 					drawCursor(g, j, i);
 				}
+				if(array[i][j].hasItem == true) {
+					array[i][j].getItem().draw(g, j * plain.getWidth(), i * plain.getHeight());
+				}
 			}
 		}
 	}
@@ -91,6 +94,8 @@ public class MapOne extends JPanel {
 	public void drawEnemyIndicator(Graphics g, int x, int y) {
 		g.drawImage(indicator, x * indicator.getWidth(), y * indicator.getHeight(), null);
 	}
+	
+	
 
 }
 

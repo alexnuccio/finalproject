@@ -30,11 +30,10 @@ public class Spearman extends Unit {
 		try {
 			img = ImageIO.read(new File("Pikeman.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.moveMultiplier = 1;
-		this.hitpoints = 150;
+		this.hitpoints = this.maxhp = 150;
 		this.attack = 30;
 	}
 
@@ -46,11 +45,7 @@ public class Spearman extends Unit {
 
 	@Override
 	public Image getImage() {
-		if (this.img != null) {
-			return this.img;
-		} else {
-			return null;
-		}
+		return this.img;
 	}
 	
 

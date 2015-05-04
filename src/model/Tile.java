@@ -11,8 +11,10 @@ public abstract class Tile {
 	public boolean occupiable;
 	public boolean isOccupied;
 	public Unit occupant; //if occupied, this is the Unit occupying Tile
+	public Item item; //if this tile has an item, this is the Item on tile
 	public boolean trap;
 	public boolean hasCursor;
+	public boolean hasItem;
 	
 	/**
 	 * The constructor for Tile
@@ -24,6 +26,8 @@ public abstract class Tile {
 		this.occupiable = true;
 		this.isOccupied = false;
 		this.occupant = null;
+		this.hasItem = false;
+		this.item = null;
 	}
 
 	
@@ -54,6 +58,14 @@ public abstract class Tile {
 	public Unit getOccupant() {
 		if(isOccupied() == true) {
 			return this.occupant;
+		} else {
+			return null;
+		}
+	}
+	
+	public Item getItem() {
+		if(this.hasItem == true) {
+			return this.item;
 		} else {
 			return null;
 		}
