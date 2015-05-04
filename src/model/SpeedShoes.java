@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class SpeedShoes extends Item {
 
 	public BufferedImage img;
-	
+
 	public SpeedShoes() {
 		try {
 			img = ImageIO.read(new File("speed-shoes.png"));
@@ -19,10 +19,11 @@ public class SpeedShoes extends Item {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void draw(Graphics g, int x, int y) {
 		g.drawImage(img, x, y, null);
 	}
+
 
 }

@@ -19,6 +19,7 @@ public abstract class Item {
 	public Item() {
 		
 	}
+
 	
 	public void setPosition(int x, int y, MapOne m) {
 		if((x >= 0 && x < m.getNumRow()) && (y >= 0 && y < m.getNumCol())) {
@@ -44,4 +45,5 @@ public abstract class Item {
 			return false;
 		}
 	}
+
 }

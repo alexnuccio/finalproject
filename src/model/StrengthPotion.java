@@ -31,6 +31,7 @@ public class StrengthPotion extends Item {
 		}
 	}
 
+
 	@Override
 	public void draw(Graphics g, int x, int y) {
 		g.drawImage(img, x, y, null);
