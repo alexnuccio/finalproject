@@ -71,6 +71,9 @@ public class MapTwo extends MapOne {
 				if(array[i][j].hasCursor == true) {
 					drawCursor(g, j, i);
 				}
+				if(array[i][j].hasItem == true) {
+					array[i][j].getItem().draw(g, j * plain.getWidth(), i * plain.getHeight());
+				}
 			}
 		}
 	}

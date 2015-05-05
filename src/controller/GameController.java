@@ -31,8 +31,8 @@ import view.*;
 public class GameController extends JFrame implements Serializable {
 
 	static MapOne map;
-	static Player player1;
-	static Player ai;
+	public static Player player1;
+	public static Player ai;
 	static JPanel mainPanel;
 	private static TreeSet<Character> keySet;
 	static Unit currUnit;
@@ -50,6 +50,7 @@ public class GameController extends JFrame implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static Model model;
+	public static int trapsUsed;
 
 	/**
 	 * This is the constructor
@@ -60,6 +61,7 @@ public class GameController extends JFrame implements Serializable {
 		if (firstFrame != null) {
 			firstFrame.setVisible(false);
 		}
+		trapsUsed = 0;
 		isValid = false;
 		isAttacking = false;
 		isMoving = false;
@@ -252,8 +254,8 @@ public class GameController extends JFrame implements Serializable {
 		Item speed = new SpeedShoes();
 		Item strength = new StrengthPotion();
 		health.setPosition(3, 1, map);
-		speed.setPosition(3, 3, map);
-		strength.setPosition(3, 5, map);
+		speed.setPosition(3, 2, map);
+		strength.setPosition(3, 3, map);
 		map.repaint();
 
 		startTime = System.currentTimeMillis();
@@ -273,7 +275,7 @@ public class GameController extends JFrame implements Serializable {
 						JOptionPane
 								.showMessageDialog(
 										null,
-										"Your turn! Move to an empty tile, attack an enemy in an\n adjacent tile, press 'i' to use item, or\n press 'n' to do nothing.");
+										"Your turn! Move to an empty tile, attack an enemy in an\n adjacent tile, press 'i' to use item, press 't' to lay a trap, or\n press 'n' to do nothing.");
 						isValid = true;
 						isMoving = false;
 						while (Unit.currMove < currUnit.moveMultiplier) {
@@ -312,6 +314,7 @@ public class GameController extends JFrame implements Serializable {
 					.showMessageDialog(null,
 							"YOU LOST. Come back next time with a better team and a better strategy....");
 		}
+		System.exit(0);
 	} // end of runGame()
 
 	public static void runItemCollector() {
@@ -399,6 +402,7 @@ public class GameController extends JFrame implements Serializable {
 		} else {
 			JOptionPane.showMessageDialog(null, "YOU TIED THE AI!");
 		}
+		System.exit(0);
 	}
 
 	public static void runSurvival() {
@@ -478,6 +482,7 @@ public class GameController extends JFrame implements Serializable {
 		} else {
 			JOptionPane.showMessageDialog(null, "YOU LOSE! Come on, the name of\n the game is SURVIVAL, so, next time, SURVIVE!");
 		}
+		System.exit(0);
 	}
 
 	/**
@@ -786,6 +791,7 @@ public class GameController extends JFrame implements Serializable {
 		elapsedMinutes = (System.currentTimeMillis() - startTime);
 		elapsedMinutes = elapsedMinutes / 1000;
 		elapsedMinutes = elapsedMinutes / 60;
+		removeDeadPlayers();
 		if (player1.listUnits().isEmpty()) {
 			ai.won = true;
 			return true;
@@ -797,6 +803,20 @@ public class GameController extends JFrame implements Serializable {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	private static void removeDeadPlayers() {
+		for(int i = 0; i < myList.size(); i++) {
+			if(myList.get(i).getHitpoints() <= 0) {
+				if(myList.get(i).getTeam() == Team.AI) {
+					ai.units.remove(myList.get(i));
+				} else {
+					player1.units.remove(myList.get(i));
+				}
+				myList.remove(i);
+				
+			}
 		}
 	}
 
@@ -816,6 +836,7 @@ public class GameController extends JFrame implements Serializable {
 	private static boolean checkIfGameIsOver3(int turn) {
 		//checks if turn is greater than 10.
 		//if user has had 10 or more turns, game is over and user has won
+		removeDeadPlayers();
 		if(turn >= 10) {
 			player1.won = true;
 			return true;
@@ -846,6 +867,17 @@ public class GameController extends JFrame implements Serializable {
 				curs.move(Direction.DOWN, map);
 			} else if (k.getKeyChar() == 'd') {
 				curs.move(Direction.RIGHT, map);
+			} else if (k.getKeyChar() == 't' && isValid) {
+				if(trapsUsed >= 2) {
+					JOptionPane
+					.showMessageDialog(null,
+							"You don't have any traps, try something else: ");
+					return;
+				}
+				currUnit = getCurrUnit();
+				currUnit.useItem(new Trap());
+				trapsUsed++;
+				Unit.currMove = currUnit.moveMultiplier;
 			} else if (k.getKeyChar() == 'n' && isValid) {
 				// do nothing
 				Unit.currMove = currUnit.moveMultiplier;
@@ -854,7 +886,7 @@ public class GameController extends JFrame implements Serializable {
 				if (player1.listItems().isEmpty() == true) {
 					JOptionPane.showMessageDialog(null,
 							"You have no items! Try something else:");
-					return;
+					throw new noItemException();
 				} else {
 					String command = JOptionPane
 							.showInputDialog(
@@ -869,6 +901,7 @@ public class GameController extends JFrame implements Serializable {
 						}
 						currUnit = getCurrUnit();
 						currUnit.useItem(new HealthPotion());
+						player1.listItems().remove(new HealthPotion());
 						Unit.currMove = currUnit.moveMultiplier;
 					} else if (command.equals("2")) {
 						if (player1.listItems().contains(new StrengthPotion()) == false) {
@@ -879,6 +912,7 @@ public class GameController extends JFrame implements Serializable {
 						}
 						currUnit = getCurrUnit();
 						currUnit.useItem(new StrengthPotion());
+						player1.listItems().remove(new StrengthPotion());
 						Unit.currMove = currUnit.moveMultiplier;
 					} else {
 						if (player1.listItems().contains(new SpeedShoes()) == false) {
@@ -889,6 +923,7 @@ public class GameController extends JFrame implements Serializable {
 						}
 						currUnit = getCurrUnit();
 						currUnit.useItem(new SpeedShoes());
+						player1.listItems().remove(new SpeedShoes());
 						Unit.currMove = currUnit.moveMultiplier;
 					}
 				}
