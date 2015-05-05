@@ -104,6 +104,7 @@ public abstract class Unit {
 				if(m.array[currRow - 1][currCol].hasATrap()){
 					m.array[currRow][currCol].isOccupied = false;
 					GameController.myList.remove(this);
+					m.array[currRow - 1][currCol].trap = false;
 					return true;
 				}
 				m.array[currRow - 1][currCol].setOccupant(this);
@@ -129,6 +130,7 @@ public abstract class Unit {
 				if(m.array[currRow + 1][currCol].hasATrap()) {
 					m.array[currRow][currCol].isOccupied = false;
 					GameController.myList.remove(this);
+					m.array[currRow + 1][currCol].trap = false;
 					return true;
 				}
 				m.array[currRow + 1][currCol].setOccupant(this);
@@ -154,6 +156,7 @@ public abstract class Unit {
 				if(m.array[currRow][currCol - 1].hasATrap()) {
 					m.array[currRow][currCol].isOccupied = false;
 					GameController.myList.remove(this);
+					m.array[currRow][currCol - 1].trap = false;
 					return true;
 				}
 				m.array[currRow][currCol - 1].setOccupant(this);
@@ -179,6 +182,7 @@ public abstract class Unit {
 				if(m.array[currRow][currCol + 1].hasATrap()) {
 					m.array[currRow][currCol].isOccupied = false;
 					GameController.myList.remove(this);
+					m.array[currRow][currCol + 1].trap = false;
 					return true;
 				}
 				m.array[currRow][currCol + 1].setOccupant(this);
