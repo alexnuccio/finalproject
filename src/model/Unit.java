@@ -104,6 +104,7 @@ public abstract class Unit {
 				}
 				m.array[currRow - 1][currCol].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow - 1][currCol].moveCost;
 			} else {
 				// do nothing
 			}
@@ -128,6 +129,7 @@ public abstract class Unit {
 				}
 				m.array[currRow + 1][currCol].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow + 1][currCol].moveCost;
 			} else {
 				// do nothing
 			}
@@ -152,6 +154,7 @@ public abstract class Unit {
 				}
 				m.array[currRow][currCol - 1].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow][currCol - 1].moveCost;
 			}else {
 				//do nothing
 			}
@@ -176,12 +179,12 @@ public abstract class Unit {
 				}
 				m.array[currRow][currCol + 1].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow][currCol + 1].moveCost;
 			}else {
 				//do nothing
 			}
 			break;
 		}
-		Unit.currMove++;
 		m.repaint();
 		return true;
 	}
