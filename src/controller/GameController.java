@@ -13,12 +13,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.Scanner;
 import java.util.TreeSet;
 
 import javax.swing.*;
+
 
 import model.*;
 import model.Cursor;
@@ -38,7 +36,7 @@ public class GameController extends JFrame implements Serializable {
 	static JPanel mainPanel;
 	private static TreeSet<Character> keySet;
 	static Unit currUnit;
-	static ArrayList<Unit> myList;
+	public static ArrayList<Unit> myList;
 	static int count;
 	static Cursor curs;
 	public static boolean isValid;
@@ -84,6 +82,101 @@ public class GameController extends JFrame implements Serializable {
 		// add menu bar
 		JMenuBar menu = new JMenuBar();
 		JMenu file = new JMenu("File");
+		JMenu stats = new JMenu("Stats");
+		JMenuItem displayStats = new JMenuItem("Display Stats");
+		displayStats.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//CREATE JFRAME TO DISPLAY STATS
+				JFrame statsFrame = new JFrame("Stats");
+				JPanel statsPanel = new JPanel();
+				statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+				statsPanel.setPreferredSize(new Dimension(450, 200));
+				statsFrame.add(statsPanel);
+				Unit current = getCurrUnit();
+				ArrayList<Unit> temp = myList;
+				JLabel label = new JLabel();
+				label.setText("Units organized by turn: ");
+				statsPanel.add(label);
+				for(int i = 0; i < temp.size(); i++) {
+					JLabel unit1 = new JLabel();
+					unit1.setText("Unit: " + temp.get(i).name + " -- HP: " + temp.get(i).hitpoints + "/" + temp.get(i).maxhp + " -- Attack: " + temp.get(i).attack);
+					statsPanel.add(unit1);
+					if(temp.get(i).getTeam() == Team.AI) {
+						unit1.setText(unit1.getText() + " -- Team: AI");
+					} else {
+						unit1.setText(unit1.getText() + " -- Team: USER");
+					}
+				}
+				
+				statsFrame.setVisible(true);
+				statsFrame.pack();
+			}
+		});
+		JMenu inst = new JMenu("Instructions");
+		JMenuItem game1 = new JMenuItem("Main Game");
+		game1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("Instructions");
+				JPanel panel = new JPanel();
+				panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+				panel.setPreferredSize(new Dimension(500, 500));
+				frame.add(panel);
+				JLabel label = new JLabel();
+				label.setText("Instructions:");
+				panel.add(label);
+				JTextArea label1 = new JTextArea();
+				label1.setText("Win Conditions: Kill all the enemies.\nLose Conditions: Take longer than 5 minutes, or have all your units killed.\nInstructions: Move your units around the map, collecting items, laying traps, and attacking enemies.");
+				label1.setEditable(false);
+				label1.setLineWrap(true);
+				panel.add(label1);
+				frame.setVisible(true);
+				frame.pack();
+			}
+		});
+		JMenuItem game2 = new JMenuItem("Item Collector");
+		game2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("Instructions");
+				JPanel panel = new JPanel();
+				panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+				panel.setPreferredSize(new Dimension(500, 500));
+				frame.add(panel);
+				JLabel label = new JLabel();
+				label.setText("Instructions:");
+				panel.add(label);
+				JTextArea label1 = new JTextArea();
+				label1.setText("Win Conditions: Collect more items than the AI, or kill all enemy units.\nLose Conditions: The AI picks up more items than your team.\nInstructions: Move your units around the map trying to pick up as many items as you possibly can. You can also attack the enemy if you choose.");
+				label1.setEditable(false);
+				label1.setLineWrap(true);
+				panel.add(label1);
+				frame.setVisible(true);
+				frame.pack();
+			}
+		});
+		JMenuItem game3 = new JMenuItem("Survival");
+		game3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("Instructions");
+				JPanel panel = new JPanel();
+				panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+				panel.setPreferredSize(new Dimension(500, 500));
+				frame.add(panel);
+				JLabel label = new JLabel();
+				label.setText("Instructions:");
+				panel.add(label);
+				JTextArea label1 = new JTextArea();
+				label1.setText("Win Conditions: Survive for 10 rounds, or kill all enemy units.\nLose Conditions: Your unit dies before the 10th round.\nInstructions: SURVIVE. Use your health potions to restore health if too low.");
+				label1.setEditable(false);
+				label1.setLineWrap(true);
+				panel.add(label1);
+				frame.setVisible(true);
+				frame.pack();
+			}
+		});
 		JMenuItem save = new JMenuItem("Save");
 		JMenuItem exit = new JMenuItem("Exit");
 		save.addActionListener(new ActionListener() {
@@ -100,7 +193,13 @@ public class GameController extends JFrame implements Serializable {
 		});
 		file.add(save);
 		file.add(exit);
+		stats.add(displayStats);
+		inst.add(game1);
+		inst.add(game2);
+		inst.add(game3);
 		menu.add(file);
+		menu.add(stats);
+		menu.add(inst);
 		this.setJMenuBar(menu);
 		this.setVisible(true);
 		this.pack();
@@ -128,7 +227,7 @@ public class GameController extends JFrame implements Serializable {
 	}
 
 	public void runGame() {
-		Strategy strat = new WeakStrategy(ai);
+		Strategy strat = new MediumStrategy(ai);
 		// SPAWN ALL UNITS
 		for (int i = 0; i < player1.listUnits().size(); i++) {
 			player1.units.get(i).setPosition(6, i + 2, map);
@@ -303,7 +402,7 @@ public class GameController extends JFrame implements Serializable {
 	}
 
 	public static void runSurvival() {
-		Strategy strat = new WeakStrategy(ai);
+		Strategy strat = new MediumStrategy(ai);
 		player1 = new Player();
 		ai = new Player();
 		// create players unit
@@ -506,7 +605,7 @@ public class GameController extends JFrame implements Serializable {
 		JPanel mapPanel = new JPanel();
 		mapPanel.setLayout(new BoxLayout(mapPanel, BoxLayout.Y_AXIS));
 		JLabel mapLabel = new JLabel("Pick the map:");
-		String[] maps = { "Map 1", "Map 2" };
+		String[] maps = { "Map 1", "Map 2" , "Map 3"};
 		mapBox = new JComboBox<String>(maps);
 		createButton = new JButton("SETUP GAME");
 		createButton.addActionListener(new ActionListener() {
@@ -655,8 +754,10 @@ public class GameController extends JFrame implements Serializable {
 				}
 				if (mapBox.getSelectedIndex() == 0) {
 					map = new MapOne();
-				} else {
+				} else if (mapBox.getSelectedIndex() == 1){
 					map = new MapTwo();
+				} else {
+					map = new MapThree();
 				}
 				gameIsSetup = true;
 
@@ -820,15 +921,14 @@ public class GameController extends JFrame implements Serializable {
 								"CAN'T MOVE THERE");
 					} else {
 						Unit attacked = map.array[row][col].getOccupant();
+						
 						boolean didAttack = currUnit.attack(d, map);
 						if (didAttack) {
-							JOptionPane.showMessageDialog(null,
-									"Completed attack on enemy! Did "
-											+ currUnit.attack + " damage");
+							
 							if (map.array[row][col].getOccupant() == null) {
 								// if occupant of square just attacked is null,
 								// then unit was killed
-								System.out.println("KILLED ENEMY: "
+								JOptionPane.showMessageDialog(null, "KILLED ENEMY: "
 										+ attacked.name);
 								myList.remove((Unit) attacked); // remove unit
 																// from list
@@ -840,6 +940,10 @@ public class GameController extends JFrame implements Serializable {
 								} else {
 									ai.units.remove((Unit) attacked);
 								}
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"Completed attack on enemy! Did "
+												+ currUnit.attack + " damage");
 							}
 						} else {
 							JOptionPane.showMessageDialog(null,

@@ -45,7 +45,7 @@ public class Horse extends Unit {
 	}
 
 	@Override
-	public Image getImage() {
+	public BufferedImage getImage() {
 		if (this.img != null) {
 			return this.img;
 		} else {

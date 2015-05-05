@@ -44,7 +44,7 @@ public class Spearman extends Unit {
 	}
 
 	@Override
-	public Image getImage() {
+	public BufferedImage getImage() {
 		return this.img;
 	}
 	

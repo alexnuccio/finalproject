@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 /**
  * This class is the abstract Unit class. All decendents will inherit these methods
@@ -21,6 +22,7 @@ public abstract class Unit {
 	public static int currMove;
 	public Team team; //team unit is on (USER or AI)
 	private static final long serialVersionUID = 1L;
+	public int xPosition, yPosition;
 	
 	/**
 	 * Unit
@@ -55,9 +57,11 @@ public abstract class Unit {
 	
 	public abstract void draw(Graphics g, int x, int y);
 	
-	public abstract Image getImage();
+	public abstract BufferedImage getImage();
 	
 	public boolean setPosition(int row, int col, MapOne m) {
+		this.xPosition = col * this.getImage().getWidth();
+		this.yPosition = row * this.getImage().getHeight();
 		if(m.array[row][col].isOccupied() == false) {
 			m.array[row][col].setOccupant(this);
 			return true;
