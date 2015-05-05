@@ -45,7 +45,7 @@ public class Cursor {
 			m.array[currRow][currCol].hasCursor = false;
 			break;
 		case DOWN:
-			if((currRow + 1) > 7) {
+			if((currRow + 1) >= m.getNumRow()) {
 				//invalid move
 				return false;
 			}
@@ -61,7 +61,7 @@ public class Cursor {
 			m.array[currRow][currCol].hasCursor = false;
 			break;
 		case RIGHT:
-			if((currCol + 1) > 7) {
+			if((currCol + 1) >= m.getNumCol()) {
 				//invalid move
 				return false;
 			}

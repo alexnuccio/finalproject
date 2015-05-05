@@ -6,7 +6,9 @@ import java.io.*;
 
 import javax.imageio.ImageIO;
 
-public class PlainTile extends Tile {
+public class PlainTile extends Tile implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	/**
 	 * The PlainTile's constructor
 	 */

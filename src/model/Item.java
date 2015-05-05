@@ -10,6 +10,7 @@ import java.awt.Graphics;
  */
 public abstract class Item {
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Item
 	 * 

@@ -20,6 +20,7 @@ public abstract class Unit {
 	public boolean isTurn;
 	public static int currMove;
 	public Team team; //team unit is on (USER or AI)
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Unit
@@ -99,13 +100,13 @@ public abstract class Unit {
 			}
 			break;
 		case DOWN:
-			if((currRow + 1) > 7) {
+			if((currRow + 1) >= m.getNumRow()) {
 				//invalid move
 				return false;
 			}
 			if(m.array[currRow + 1][currCol].isOccupied() == true || m.array[currRow + 1][currCol].isOccupiable() == false) {
 				return false;
-			} else if ((currRow + 1) <= 7) {
+			} else if ((currRow + 1) < m.getNumRow()) {
 				if(m.array[currRow + 1][currCol].hasItem == true) {
 					//if tile we're moving to has an item
 					this.player.addItem(m.array[currRow + 1][currCol].getItem());
@@ -137,13 +138,13 @@ public abstract class Unit {
 			}
 			break;
 		case RIGHT:
-			if((currCol + 1) > 7) {
+			if((currCol + 1) >= m.getNumCol()) {
 				//invalid move
 				return false;
 			}
 			if(m.array[currRow][currCol + 1].isOccupied() == true || m.array[currRow][currCol + 1].isOccupiable() == false) {
 				return false;
-			} else if ((currCol + 1) <= 7) {
+			} else if ((currCol + 1) < m.getNumCol()) {
 				if(m.array[currRow][currCol + 1].hasItem == true) {
 					//if tile we're moving to has an item
 					this.player.addItem(m.array[currRow][currCol + 1].getItem());

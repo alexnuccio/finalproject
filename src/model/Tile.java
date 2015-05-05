@@ -16,6 +16,8 @@ public abstract class Tile {
 	public boolean hasCursor;
 	public boolean hasItem;
 	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * The constructor for Tile
 	 */
@@ -61,6 +63,11 @@ public abstract class Tile {
 		} else {
 			return null;
 		}
+	}
+	
+	public void setItem(Item i) {
+		this.item = i;
+		this.hasItem = true;
 	}
 	
 	public Item getItem() {
