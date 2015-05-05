@@ -32,6 +32,7 @@ public class Spearman extends Unit {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.type = "Spearman";
 		this.moveMultiplier = 1;
 		this.hitpoints = this.maxhp = 150;
 		this.attack = 30;

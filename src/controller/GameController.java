@@ -930,6 +930,7 @@ public class GameController extends JFrame implements Serializable {
 								// then unit was killed
 								JOptionPane.showMessageDialog(null, "KILLED ENEMY: "
 										+ attacked.name);
+
 								myList.remove((Unit) attacked); // remove unit
 																// from list
 								// check whos team unit was on

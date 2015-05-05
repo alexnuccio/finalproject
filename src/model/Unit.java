@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import controller.GameController;
+import view.GameView;
+
 /**
  * This class is the abstract Unit class. All decendents will inherit these methods
  * 
@@ -14,6 +17,7 @@ public abstract class Unit {
 
 	public String name;
 	public Player player;
+	public String type;
 	public int hitpoints;
 	public int maxhp;
 	public int moveMultiplier;
@@ -97,8 +101,14 @@ public abstract class Unit {
 					this.player.addItem(m.array[currRow - 1][currCol].getItem());
 					m.array[currRow - 1][currCol].hasItem = false;
 				}
+				if(m.array[currRow - 1][currCol].hasATrap()){
+					m.array[currRow][currCol].isOccupied = false;
+					GameController.myList.remove(this);
+					return true;
+				}
 				m.array[currRow - 1][currCol].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow - 1][currCol].moveCost;
 			} else {
 				// do nothing
 			}
@@ -116,8 +126,14 @@ public abstract class Unit {
 					this.player.addItem(m.array[currRow + 1][currCol].getItem());
 					m.array[currRow + 1][currCol].hasItem = false;
 				}
+				if(m.array[currRow + 1][currCol].hasATrap()) {
+					m.array[currRow][currCol].isOccupied = false;
+					GameController.myList.remove(this);
+					return true;
+				}
 				m.array[currRow + 1][currCol].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow + 1][currCol].moveCost;
 			} else {
 				// do nothing
 			}
@@ -135,8 +151,14 @@ public abstract class Unit {
 					this.player.addItem(m.array[currRow][currCol - 1].getItem());
 					m.array[currRow][currCol - 1].hasItem = false;
 				}
+				if(m.array[currRow][currCol - 1].hasATrap()) {
+					m.array[currRow][currCol].isOccupied = false;
+					GameController.myList.remove(this);
+					return true;
+				}
 				m.array[currRow][currCol - 1].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow][currCol - 1].moveCost;
 			}else {
 				//do nothing
 			}
@@ -154,14 +176,19 @@ public abstract class Unit {
 					this.player.addItem(m.array[currRow][currCol + 1].getItem());
 					m.array[currRow][currCol + 1].hasItem = false;
 				}
+				if(m.array[currRow][currCol + 1].hasATrap()) {
+					m.array[currRow][currCol].isOccupied = false;
+					GameController.myList.remove(this);
+					return true;
+				}
 				m.array[currRow][currCol + 1].setOccupant(this);
 				m.array[currRow][currCol].isOccupied = false;
+				Unit.currMove+=m.array[currRow][currCol + 1].moveCost;
 			}else {
 				//do nothing
 			}
 			break;
 		}
-		Unit.currMove++;
 		m.repaint();
 		return true;
 	}
@@ -191,6 +218,10 @@ public abstract class Unit {
 			return true;
 		}else if(item instanceof SpeedShoes){
 			moveMultiplier++;
+			return true;
+		}else if(item instanceof Trap){
+			MapOne m = GameView.getMap();
+			m.array[getRow(m)][getCol(m)].trap = true;
 			return true;
 		}else{
 			return false;

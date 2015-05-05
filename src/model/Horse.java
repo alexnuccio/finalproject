@@ -30,6 +30,7 @@ public class Horse extends Unit {
 		this.hitpoints = this.maxhp = 80;
 		this.moveMultiplier = 4;
 		this.attack = 20;
+		this.type = "Horse";
 		try {
 			img = ImageIO.read(new File("Horse.png"));
 		} catch (IOException e) {
