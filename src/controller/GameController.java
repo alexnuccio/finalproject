@@ -252,8 +252,8 @@ public class GameController extends JFrame implements Serializable {
 		Item speed = new SpeedShoes();
 		Item strength = new StrengthPotion();
 		health.setPosition(3, 1, map);
-		speed.setPosition(3, 2, map);
-		strength.setPosition(3, 3, map);
+		speed.setPosition(3, 3, map);
+		strength.setPosition(3, 5, map);
 		map.repaint();
 
 		startTime = System.currentTimeMillis();

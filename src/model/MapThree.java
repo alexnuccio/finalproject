@@ -9,13 +9,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 public class MapThree extends MapOne {
 
-	public Tile[][] array;
-	public BufferedImage plain, forest, cursor, icon, indicator;
-	
+	BufferedImage forest;
 	public MapThree() {
+		
 		try {
 			plain = ImageIO.read(new File("plain-test.png"));
 			forest = ImageIO.read(new File("Mountain.png"));
@@ -26,38 +24,28 @@ public class MapThree extends MapOne {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		array = new Tile[7][10];
 		this.setLayout(new GridLayout(7, 10));
 		for(int i = 0; i < 7; i++) {
 			
 			for(int j = 0; j < 10; j++) {
-				if(i==1 || i==5){
+				switch(j){
+				case 1:
+				case 3:
+				case 5:
+				case 7:
 					array[i][j] = new ForestTile();
-				}else{
+					break;
+				default:
 					array[i][j] = new PlainTile();
+					break;
 				}
 			}
+			
 		}
 		this.setPreferredSize(new Dimension(10 * plain.getWidth(), 7 * plain.getHeight()));
 		this.setVisible(true);
 		
-	}
-	
-	public int getNumRow() {
-		return 7;
-	}
-	
-	public int getNumCol() {
-		return 10;
-	}
-
-	public int getImageWidth() {
-		return plain.getWidth();
-	}
-	
-	public int getImageHeight() {
-		return plain.getHeight();
 	}
 	
 	@Override
@@ -65,11 +53,13 @@ public class MapThree extends MapOne {
 		super.paintComponent(g);
 		for(int i = 0; i < 7; i++) {
 			for(int j = 0; j < 10; j++) {
-				if(array[i][j] instanceof ForestTile){
-					g.drawImage(forest, j * plain.getWidth(), i * plain.getHeight(), null);
-				}else{
+				if(array[i][j] instanceof PlainTile) {
 					g.drawImage(plain, j * plain.getWidth(), i * plain.getHeight(), null);
+				} else {
+					g.drawImage(forest, j* plain.getWidth(), i * plain.getHeight(), null);
 				}
+				
+				
 				if(array[i][j].isOccupied() == true) {
 					array[i][j].getOccupant().draw(g, j * plain.getWidth(), i * plain.getHeight()); //has unit occupying tile draw itself 
 					if(array[i][j].getOccupant().isTurn == true) {
@@ -84,26 +74,7 @@ public class MapThree extends MapOne {
 				if(array[i][j].hasCursor == true) {
 					drawCursor(g, j, i);
 				}
-				if(array[i][j].hasItem == true) {
-					array[i][j].getItem().draw(g, j * plain.getWidth(), i * plain.getHeight());
-				}
 			}
 		}
 	}
-	
-	public void drawCursor(Graphics g, int x, int y) {
-		g.drawImage(cursor, x * cursor.getWidth(), y * cursor.getHeight(), null);
-	}
-	
-	public void drawIcon(Graphics g, int x, int y) {
-		g.drawImage(icon, x * icon.getWidth(), y * icon.getHeight(), null);
-	}
-	
-	public void drawEnemyIndicator(Graphics g, int x, int y) {
-		g.drawImage(indicator, x * indicator.getWidth(), y * indicator.getHeight(), null);
-	}
-	
-	
-
 }
-
