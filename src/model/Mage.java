@@ -31,6 +31,7 @@ public class Mage extends Unit {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.type = "Mage";
 		this.moveMultiplier = 2;
 		this.hitpoints = this.maxhp = 100;
 		this.attack = 10;

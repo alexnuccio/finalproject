@@ -16,7 +16,7 @@ public class GameView extends JPanel {
 		this.setVisible(true);
 	}
 	
-	public MapOne getMap() {
+	public static MapOne getMap() {
 		return map;
 	}
 

@@ -38,7 +38,7 @@ public class GameController extends JFrame implements Serializable {
 	static JPanel mainPanel;
 	private static TreeSet<Character> keySet;
 	static Unit currUnit;
-	static ArrayList<Unit> myList;
+	public static ArrayList<Unit> myList;
 	static int count;
 	static Cursor curs;
 	public static boolean isValid;
@@ -829,7 +829,7 @@ public class GameController extends JFrame implements Serializable {
 								// if occupant of square just attacked is null,
 								// then unit was killed
 								System.out.println("KILLED ENEMY: "
-										+ attacked.name);
+										+ attacked.type);
 								myList.remove((Unit) attacked); // remove unit
 																// from list
 								// check whos team unit was on
