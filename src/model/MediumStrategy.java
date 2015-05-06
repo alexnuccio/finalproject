@@ -31,26 +31,26 @@ public class MediumStrategy extends Strategy {
 		if(!attacked) {
 			attacked = currUnit.attack(Direction.DOWN,  map);
 		} else {
-			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
+			JOptionPane.showMessageDialog(null, "Enemy attacked a unit!");
 			//Unit.currMove = 100;
 			return;
 		}
 		if(!attacked) {
 			attacked = currUnit.attack(Direction.LEFT, map);
 		} else {
-			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
+			JOptionPane.showMessageDialog(null, "Enemy attacked a unit!");
 			//Unit.currMove = 100;
 			return;
 		}
 		if(!attacked) {
 			attacked = currUnit.attack(Direction.RIGHT, map);
 		} else {
-			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
+			JOptionPane.showMessageDialog(null, "Enemy attacked a unit!");
 			//Unit.currMove = 100;
 			return;
 		}
 		if(attacked) {
-			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
+			JOptionPane.showMessageDialog(null, "Enemy attacked a unit!");
 			//Unit.currMove = 100;
 			return;
 		}
