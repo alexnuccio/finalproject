@@ -185,7 +185,7 @@ public class GameController extends JFrame implements Serializable {
 				label.setText("Instructions:");
 				panel.add(label);
 				JTextArea label1 = new JTextArea();
-				label1.setText("Win Conditions: Survive for 10 rounds, or kill all enemy units.\nLose Conditions: Your unit dies before the 10th round.\nInstructions: SURVIVE. Use your health potions to restore health if too low.");
+				label1.setText("Win Conditions: Survive for 30 rounds, or kill all enemy units.\nLose Conditions: Your unit dies before the 30th round.\nInstructions: SURVIVE. Use your health potions to restore health if too low.");
 				label1.setEditable(false);
 				label1.setLineWrap(true);
 				panel.add(label1);
