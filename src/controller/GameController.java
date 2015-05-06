@@ -17,7 +17,6 @@ import java.util.TreeSet;
 
 import javax.swing.*;
 
-
 import model.*;
 import model.Cursor;
 import view.*;
@@ -36,7 +35,7 @@ public class GameController extends JFrame implements Serializable {
 	static JPanel mainPanel;
 	private static TreeSet<Character> keySet;
 	static Unit currUnit;
-	public static ArrayList<Unit> myList;
+	public static ArrayList<Player> myList;
 	static int count;
 	static Cursor curs;
 	public static boolean isValid;
@@ -80,6 +79,7 @@ public class GameController extends JFrame implements Serializable {
 		mainPanel.add(view);
 		this.addKeyListener(new keyListener());
 		this.add(mainPanel);
+		this.setTitle("The Barbarians");
 
 		// add menu bar
 		JMenuBar menu = new JMenuBar();
@@ -89,28 +89,42 @@ public class GameController extends JFrame implements Serializable {
 		displayStats.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//CREATE JFRAME TO DISPLAY STATS
+				// CREATE JFRAME TO DISPLAY STATS
 				JFrame statsFrame = new JFrame("Stats");
 				JPanel statsPanel = new JPanel();
-				statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+				statsPanel
+						.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
 				statsPanel.setPreferredSize(new Dimension(450, 200));
 				statsFrame.add(statsPanel);
-				Unit current = getCurrUnit();
-				ArrayList<Unit> temp = myList;
+				Unit current = getCurrUnit(myList);
+				ArrayList<Unit> temp = new ArrayList<Unit>();
+				for (int i = 0; i < myList.size(); i++) {
+					if (i == 0) {
+						for (int j = 0; j < myList.get(0).listUnits().size(); j++) {
+							temp.add(myList.get(0).units.get(j));
+						}
+					} else {
+						for (int j = 0; j < myList.get(1).listUnits().size(); j++) {
+							temp.add(myList.get(1).units.get(j));
+						}
+					}
+				}
 				JLabel label = new JLabel();
 				label.setText("Units organized by turn: ");
 				statsPanel.add(label);
-				for(int i = 0; i < temp.size(); i++) {
+				for (int i = 0; i < temp.size(); i++) {
 					JLabel unit1 = new JLabel();
-					unit1.setText("Unit: " + temp.get(i).name + " -- HP: " + temp.get(i).hitpoints + "/" + temp.get(i).maxhp + " -- Attack: " + temp.get(i).attack);
+					unit1.setText("Unit: " + temp.get(i).type + " -- HP: "
+							+ temp.get(i).hitpoints + "/" + temp.get(i).maxhp
+							+ " -- Attack: " + temp.get(i).attack);
 					statsPanel.add(unit1);
-					if(temp.get(i).getTeam() == Team.AI) {
+					if (temp.get(i).getTeam() == Team.AI) {
 						unit1.setText(unit1.getText() + " -- Team: AI");
 					} else {
 						unit1.setText(unit1.getText() + " -- Team: USER");
 					}
 				}
-				
+
 				statsFrame.setVisible(true);
 				statsFrame.pack();
 			}
@@ -129,7 +143,7 @@ public class GameController extends JFrame implements Serializable {
 				label.setText("Instructions:");
 				panel.add(label);
 				JTextArea label1 = new JTextArea();
-				label1.setText("Win Conditions: Kill all the enemies.\nLose Conditions: Take longer than 5 minutes, or have all your units killed.\nInstructions: Move your units around the map, collecting items, laying traps, and attacking enemies.");
+				label1.setText("Win Conditions: Kill all the enemies.\nLose Conditions: Take longer than 10 minutes, or have all your units killed.\nInstructions: Move your units around the map, collecting items, laying traps, and attacking enemies.");
 				label1.setEditable(false);
 				label1.setLineWrap(true);
 				panel.add(label1);
@@ -179,6 +193,10 @@ public class GameController extends JFrame implements Serializable {
 				frame.pack();
 			}
 		});
+		JMenu item = new JMenu("Items");
+		JMenuItem itemList = new JMenuItem("Item List");
+		itemList.addActionListener(new ItemListener());
+		item.add(itemList);
 		JMenuItem save = new JMenuItem("Save");
 		JMenuItem exit = new JMenuItem("Exit");
 		save.addActionListener(new ActionListener() {
@@ -202,6 +220,7 @@ public class GameController extends JFrame implements Serializable {
 		menu.add(file);
 		menu.add(stats);
 		menu.add(inst);
+		menu.add(item);
 		this.setJMenuBar(menu);
 		this.setVisible(true);
 		this.pack();
@@ -240,14 +259,10 @@ public class GameController extends JFrame implements Serializable {
 		}
 		map.repaint();
 
-		myList = new ArrayList<Unit>(); // array list to hold all units (only
-										// living units)
-		for (int i = 0; i < player1.listUnits().size(); i++) {
-			myList.add(player1.listUnits().get(i));
-		}
-		for (int i = 0; i < ai.listUnits().size(); i++) {
-			myList.add(ai.listUnits().get(i));
-		}
+		myList = new ArrayList<Player>(); // array list to hold all units (only
+											// living units)
+		myList.add(player1);
+		myList.add(ai);
 
 		// SPAWN ALL ITEMS
 		Item health = new HealthPotion();
@@ -264,12 +279,10 @@ public class GameController extends JFrame implements Serializable {
 		Unit currUnit;
 		while (player1.hasWon() == false && ai.hasWon() == false) {
 			while (checkIfGameIsOver() == false) {
-				if (player1.listUnits().contains(
-						myList.get(count % myList.size()))) {
+				if (myList.get(count % 2).units.get(0).getTeam() == Team.USER) {
 					// players turn
-					int stop = player1.listUnits().size() + count;
-					for (int i = count; i < stop; i++) {
-						currUnit = (Unit) myList.get(i % myList.size());
+					for (int i = 0; i < myList.get(0).listUnits().size(); i++) {
+						currUnit = (Unit) myList.get(0).units.get(i);
 						currUnit.isTurn = true;
 						map.repaint();
 						JOptionPane
@@ -284,22 +297,21 @@ public class GameController extends JFrame implements Serializable {
 						}
 						Unit.currMove = 0;
 						isValid = false;
-						count++;
 						currUnit.isTurn = false;
 						map.repaint();
 					}
 
 				} else {
 					// ai's turn
-					int stop = ai.listUnits().size() + count;
-					for (int i = count; i < stop; i++) {
-						currUnit = (Unit) myList.get(i % myList.size());
+					for (int i = 0; i < myList.get(1).listUnits().size(); i++) {
+						currUnit = (Unit) myList.get(1).units.get(i);
 						strat.aiMove(currUnit, map);
 						map.repaint();
+						Unit.currMove = 0;
 					}
-					Unit.currMove = 0;
-					count++;
+
 				}
+				count++;
 			} // end of second outer while
 		} // end of outer while
 
@@ -341,23 +353,18 @@ public class GameController extends JFrame implements Serializable {
 		yourHorse.setTeam(Team.USER);
 		aiHorse.setTeam(Team.AI);
 
-		myList = new ArrayList<Unit>(); // array list to hold all units (only
-										// living units)
-		for (int i = 0; i < player1.listUnits().size(); i++) {
-			myList.add(player1.listUnits().get(i));
-		}
-		for (int i = 0; i < ai.listUnits().size(); i++) {
-			myList.add(ai.listUnits().get(i));
-		}
+		myList = new ArrayList<Player>(); // array list to hold all units (only
+		// living units)
+		myList.add(player1);
+		myList.add(ai);
 
 		count = 0;
 		Unit currUnit;
 		while (checkIfGameIsOver2() == false) {
-			if (player1.listUnits().contains(myList.get(count % myList.size()))) {
+			if (myList.get(count % 2).units.get(0).getTeam() == Team.USER) {
 				// players turn
-				int stop = player1.listUnits().size() + count;
-				for (int i = count; i < stop; i++) {
-					currUnit = (Unit) myList.get(i % myList.size());
+				for (int i = 0; i < myList.get(0).listUnits().size(); i++) {
+					currUnit = (Unit) myList.get(0).units.get(i);
 					currUnit.isTurn = true;
 					map.repaint();
 					JOptionPane
@@ -371,23 +378,19 @@ public class GameController extends JFrame implements Serializable {
 					}
 					Unit.currMove = 0;
 					isValid = false;
-					count++;
 					currUnit.isTurn = false;
 					map.repaint();
 				}
 			} else {
 				// ai's turn
-				int stop = ai.listUnits().size() + count;
-				for (int i = count; i < stop; i++) {
-					currUnit = (Unit) myList.get(i % myList.size());
-					// generate move for ai's currUnit
-					
+				for (int i = 0; i < myList.get(1).listUnits().size(); i++) {
+					currUnit = (Unit) myList.get(1).units.get(i);
 					strat.aiMove(currUnit, map);
 					map.repaint();
+					Unit.currMove = 0;
 				}
-				Unit.currMove = 0;
-				count++;
 			}
+			count++;
 		}
 
 		if (player1.listItems().size() > ai.listItems().size()) {
@@ -428,26 +431,26 @@ public class GameController extends JFrame implements Serializable {
 		player1.addItem(new HealthPotion());
 		player1.addItem(new HealthPotion());
 
-		myList = new ArrayList<Unit>(); // array list to hold all units (only
+		myList = new ArrayList<Player>(); // array list to hold all units (only
 		// living units)
-		for (int i = 0; i < player1.listUnits().size(); i++) {
-			myList.add(player1.listUnits().get(i));
-		}
-		for (int i = 0; i < ai.listUnits().size(); i++) {
-			myList.add(ai.listUnits().get(i));
-		}
+		myList.add(player1);
+		myList.add(ai);
 		map.repaint();
-		
+
 		int turns = 0;
-		while(checkIfGameIsOver3(turns) == false) {
-			if (player1.listUnits().contains(myList.get(count % myList.size()))) {
-				//players turn
-				int stop = player1.listUnits().size() + count;
-				for (int i = count; i < stop; i++) {
-					currUnit = (Unit) myList.get(i % myList.size());
+		while (checkIfGameIsOver3(turns) == false) {
+			if (myList.get(count % 2).units.get(0).getTeam() == Team.USER) {
+				// players turn
+				for (int i = 0; i < myList.get(0).listUnits().size(); i++) {
+					currUnit = (Unit) myList.get(0).units.get(i);
 					currUnit.isTurn = true;
 					map.repaint();
-					JOptionPane.showMessageDialog(null, "Your turn!\n Survive for " + (10 - turns) + " more rounds, or kill all enemies to win!");
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"Your turn!\n Survive for "
+											+ (30 - turns)
+											+ " more rounds, or kill all enemies to win!");
 					isValid = true;
 					isMoving = false;
 					while (Unit.currMove < currUnit.moveMultiplier) {
@@ -456,31 +459,31 @@ public class GameController extends JFrame implements Serializable {
 					}
 					Unit.currMove = 0;
 					isValid = false;
-					count++;
 					currUnit.isTurn = false;
 					map.repaint();
-					
+
 				}
 				turns++;
-				
+
 			} else {
-				//ai's turn
-				int stop = ai.listUnits().size() + count;
-				for (int i = count; i < stop; i++) {
-					currUnit = (Unit) myList.get(i % myList.size());
+				// ai's turn
+				for (int i = 0; i < myList.get(1).listUnits().size(); i++) {
+					currUnit = (Unit) myList.get(1).units.get(i);
 					strat.aiMove(currUnit, map);
 					map.repaint();
+					Unit.currMove = 0;
 				}
-				Unit.currMove = 0;
-				count++;
-					
-			}	
+			}
+			count++;
 		}
-		
-		if(player1.hasWon() == true) {
+
+		if (player1.hasWon() == true) {
 			JOptionPane.showMessageDialog(null, "CONGRATS! You survived!");
 		} else {
-			JOptionPane.showMessageDialog(null, "YOU LOSE! Come on, the name of\n the game is SURVIVAL, so, next time, SURVIVE!");
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"YOU LOSE! Come on, the name of\n the game is SURVIVAL, so, next time, SURVIVE!");
 		}
 		System.exit(0);
 	}
@@ -556,7 +559,7 @@ public class GameController extends JFrame implements Serializable {
 		String command = JOptionPane
 				.showInputDialog(
 						null,
-						"Pick whick game mode to play!\n Enter 1 for the main game.\n Enter 2 for Item Collection.\n Enter 3 for Survival.");
+						"Welcome to The Barbarians!\n\n Pick which game mode to play!\n Enter 1 for the main game.\n Enter 2 for Item Collection.\n Enter 3 for Survival.");
 		if (command.equals("2")) {
 			map = new MapOne();
 			new GameController(null, null, map, 2);
@@ -610,7 +613,7 @@ public class GameController extends JFrame implements Serializable {
 		JPanel mapPanel = new JPanel();
 		mapPanel.setLayout(new BoxLayout(mapPanel, BoxLayout.Y_AXIS));
 		JLabel mapLabel = new JLabel("Pick the map:");
-		String[] maps = { "Map 1", "Map 2" , "Map 3"};
+		String[] maps = { "Map 1", "Map 2", "Map 3" };
 		mapBox = new JComboBox<String>(maps);
 		createButton = new JButton("SETUP GAME");
 		createButton.addActionListener(new ActionListener() {
@@ -759,7 +762,7 @@ public class GameController extends JFrame implements Serializable {
 				}
 				if (mapBox.getSelectedIndex() == 0) {
 					map = new MapOne();
-				} else if (mapBox.getSelectedIndex() == 1){
+				} else if (mapBox.getSelectedIndex() == 1) {
 					map = new MapTwo();
 				} else {
 					map = new MapThree();
@@ -783,8 +786,23 @@ public class GameController extends JFrame implements Serializable {
 
 	}
 
-	public static Unit getCurrUnit() {
-		return myList.get(count % myList.size());
+	public static Unit getCurrUnit(ArrayList<Player> list) {
+		for (int i = 0; i < myList.size(); i++) {
+			if (i == 0) {
+				for (int j = 0; j < myList.get(0).listUnits().size(); j++) {
+					if (myList.get(0).units.get(j).isTurn == true) {
+						return myList.get(0).units.get(j);
+					}
+				}
+			} else {
+				for (int j = 0; j < myList.get(1).listUnits().size(); j++) {
+					if (myList.get(1).units.get(j).isTurn == true) {
+						return myList.get(1).units.get(j);
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	private static boolean checkIfGameIsOver() {
@@ -798,25 +816,31 @@ public class GameController extends JFrame implements Serializable {
 		} else if (ai.listUnits().isEmpty()) {
 			player1.won = true;
 			return true;
-		} else if (elapsedMinutes >= 5) {
+		} else if (elapsedMinutes >= 10) {
 			ai.won = true;
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	private static void removeDeadPlayers() {
-		for(int i = 0; i < myList.size(); i++) {
-			if(myList.get(i).getHitpoints() <= 0) {
-				if(myList.get(i).getTeam() == Team.AI) {
-					ai.units.remove(myList.get(i));
-				} else {
-					player1.units.remove(myList.get(i));
+		for (int i = 0; i < myList.size(); i++) {
+
+			if (i == 0) {
+				for (int j = 0; j < myList.get(0).listUnits().size(); j++) {
+					if (myList.get(0).units.get(j).getHitpoints() <= 0) {
+						player1.units.remove(j);
+					}
 				}
-				myList.remove(i);
-				
+			} else {
+				for (int j = 0; j < myList.get(1).listUnits().size(); j++) {
+					if (myList.get(1).units.get(j).getHitpoints() <= 0) {
+						ai.units.remove(j);
+					}
+				}
 			}
+
 		}
 	}
 
@@ -832,19 +856,19 @@ public class GameController extends JFrame implements Serializable {
 		}
 		return true;
 	}
-	
+
 	private static boolean checkIfGameIsOver3(int turn) {
-		//checks if turn is greater than 10.
-		//if user has had 10 or more turns, game is over and user has won
+		// checks if turn is greater than 10.
+		// if user has had 10 or more turns, game is over and user has won
 		removeDeadPlayers();
-		if(turn >= 10) {
+		if (turn >= 30) {
 			player1.won = true;
 			return true;
 		}
-		if(player1.listUnits().isEmpty()) {
+		if (player1.listUnits().isEmpty()) {
 			player1.won = false;
 			return true;
-		} else if(ai.listUnits().isEmpty()) {
+		} else if (ai.listUnits().isEmpty()) {
 			player1.won = true;
 			return true;
 		}
@@ -858,7 +882,7 @@ public class GameController extends JFrame implements Serializable {
 			keySet.add(k.getKeyChar());
 			int row, col;
 			Direction d;
-			currUnit = getCurrUnit();
+			currUnit = getCurrUnit(myList);
 			if (k.getKeyChar() == 'w') {
 				curs.move(Direction.UP, map);
 			} else if (k.getKeyChar() == 'a') {
@@ -868,13 +892,12 @@ public class GameController extends JFrame implements Serializable {
 			} else if (k.getKeyChar() == 'd') {
 				curs.move(Direction.RIGHT, map);
 			} else if (k.getKeyChar() == 't' && isValid) {
-				if(trapsUsed >= 2) {
-					JOptionPane
-					.showMessageDialog(null,
+				if (trapsUsed >= 2) {
+					JOptionPane.showMessageDialog(null,
 							"You don't have any traps, try something else: ");
 					return;
 				}
-				currUnit = getCurrUnit();
+				currUnit = getCurrUnit(myList);
 				currUnit.useItem(new Trap());
 				trapsUsed++;
 				Unit.currMove = currUnit.moveMultiplier;
@@ -899,7 +922,7 @@ public class GameController extends JFrame implements Serializable {
 											"You don't have any health potions, try something else: ");
 							return;
 						}
-						currUnit = getCurrUnit();
+						currUnit = getCurrUnit(myList);
 						currUnit.useItem(new HealthPotion());
 						player1.listItems().remove(new HealthPotion());
 						Unit.currMove = currUnit.moveMultiplier;
@@ -910,7 +933,7 @@ public class GameController extends JFrame implements Serializable {
 											"You don't have any strength potions, try something else: ");
 							return;
 						}
-						currUnit = getCurrUnit();
+						currUnit = getCurrUnit(myList);
 						currUnit.useItem(new StrengthPotion());
 						player1.listItems().remove(new StrengthPotion());
 						Unit.currMove = currUnit.moveMultiplier;
@@ -921,14 +944,14 @@ public class GameController extends JFrame implements Serializable {
 											"You don't have any speed shoes, try something else: ");
 							return;
 						}
-						currUnit = getCurrUnit();
+						currUnit = getCurrUnit(myList);
 						currUnit.useItem(new SpeedShoes());
 						player1.listItems().remove(new SpeedShoes());
 						Unit.currMove = currUnit.moveMultiplier;
 					}
 				}
 			} else if (k.getKeyChar() == '\n' && isValid) {
-				currUnit = getCurrUnit();
+				currUnit = getCurrUnit(myList);
 				int currRow = currUnit.getRow(map);
 				int currCol = currUnit.getCol(map);
 				row = curs.getRow();
@@ -956,15 +979,15 @@ public class GameController extends JFrame implements Serializable {
 								"CAN'T MOVE THERE");
 					} else {
 						Unit attacked = map.array[row][col].getOccupant();
-						
+
 						boolean didAttack = currUnit.attack(d, map);
 						if (didAttack) {
-							
+
 							if (map.array[row][col].getOccupant() == null) {
 								// if occupant of square just attacked is null,
 								// then unit was killed
-								JOptionPane.showMessageDialog(null, "KILLED ENEMY: "
-										+ attacked.name);
+								JOptionPane.showMessageDialog(null,
+										"KILLED ENEMY: " + attacked.type);
 
 								myList.remove((Unit) attacked); // remove unit
 																// from list
@@ -1036,6 +1059,35 @@ public class GameController extends JFrame implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private class ItemListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			JFrame frame = new JFrame("Item List");
+			JPanel panel = new JPanel();
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+			panel.setPreferredSize(new Dimension(500, 500));
+			frame.add(panel);
+			JLabel label = new JLabel();
+			label.setText("Item List:");
+			panel.add(label);
+			JTextArea label1 = new JTextArea();
+			for (int i = 0; i < player1.listItems().size(); i++) {
+				label1.setText(label1.getText()
+						+ player1.items.get(i).toString() + "\n");
+			}
+
+			label1.setEditable(false);
+			label1.setLineWrap(true);
+			panel.add(label1);
+			frame.setVisible(true);
+			frame.pack();
+
+		}
+
 	}
 
 }

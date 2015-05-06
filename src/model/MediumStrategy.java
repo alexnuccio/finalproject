@@ -32,26 +32,26 @@ public class MediumStrategy extends Strategy {
 			attacked = currUnit.attack(Direction.DOWN,  map);
 		} else {
 			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
-			Unit.currMove = 100;
+			//Unit.currMove = 100;
 			return;
 		}
 		if(!attacked) {
 			attacked = currUnit.attack(Direction.LEFT, map);
 		} else {
 			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
-			Unit.currMove = 100;
+			//Unit.currMove = 100;
 			return;
 		}
 		if(!attacked) {
 			attacked = currUnit.attack(Direction.RIGHT, map);
 		} else {
 			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
-			Unit.currMove = 100;
+			//Unit.currMove = 100;
 			return;
 		}
 		if(attacked) {
 			JOptionPane.showMessageDialog(null, "Enemy attacked your unit!");
-			Unit.currMove = 100;
+			//Unit.currMove = 100;
 			return;
 		}
 		//if you successfully attacked, this unit's turn is over 

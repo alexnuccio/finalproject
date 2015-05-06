@@ -46,5 +46,19 @@ public abstract class Item {
 			return false;
 		}
 	}
+	
+	public String toString() {
+		String result = "";
+		if(this instanceof HealthPotion) {
+			result += "Health Potion: restores 30 hp";
+		} else if(this instanceof StrengthPotion) {
+			result += "Strength Potion: adds 20 to attack";
+		} else if(this instanceof Trap) {
+			result+= "Trap: lay trap on tile to instantly kill enemy";
+		} else {
+			result += "Speed Shoes: move 1 extra space";
+		}
+		return result;
+	}
 
 }
