@@ -10,11 +10,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * MapOne
+ * 
+ * The first map, which is an array of Tiles. 
+ * Also the root class of the other two maps.
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
+ * 
+ */
 public class MapOne extends JPanel {
 
 	public Tile[][] array;
 	public BufferedImage plain, cursor, icon, indicator;
 	
+	
+	/**
+	 * MapOne
+	 * 
+	 * Constructor for MapOne
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public MapOne() {
 		try {
 			plain = ImageIO.read(new File("plain-test.png"));
@@ -39,22 +56,67 @@ public class MapOne extends JPanel {
 		
 	}
 	
+	/**
+	 * getNumRow
+	 * 
+	 * Returns the number of rows.
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getNumRow() {
 		return 7;
 	}
 	
+	/**
+	 * getNumCol
+	 * 
+	 * Returns the number of columns
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getNumCol() {
 		return 10;
 	}
 
+	/**
+	 * getImageWidth
+	 * 
+	 * Returns the width of the image.
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getImageWidth() {
 		return plain.getWidth();
 	}
 	
+	/**
+	 * getImageHeight
+	 * 
+	 * Returns the height of the image.
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getImageHeight() {
 		return plain.getHeight();
 	}
 	
+	/**
+	 * paintComponent
+	 * 
+	 * Draws the map.
+	 * 
+	 * @param g
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -83,14 +145,47 @@ public class MapOne extends JPanel {
 		}
 	}
 	
+	/**
+	 * drawCursor
+	 * 
+	 * Draws the cursor on the map.
+	 * 
+	 * @param g
+	 * @param x	the x position on the map's grid
+	 * @param y	the y position on the map's grid
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public void drawCursor(Graphics g, int x, int y) {
 		g.drawImage(cursor, x * cursor.getWidth(), y * cursor.getHeight(), null);
 	}
 	
+	/**
+	 * drawIcon
+	 * 
+	 * Draws icon.
+	 * 
+	 * @param g
+	 * @param x	the x position on the map's grid
+	 * @param y	the y position on the map's grid
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public void drawIcon(Graphics g, int x, int y) {
 		g.drawImage(icon, x * icon.getWidth(), y * icon.getHeight(), null);
 	}
 	
+	/**
+	 * drawEnemyIndicator
+	 * 
+	 * Draws the indicator that a unit is an enemy/
+	 * 
+	 * @param g
+	 * @param x the x position on the map's grid
+	 * @param y	the y position on the map's grid
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public void drawEnemyIndicator(Graphics g, int x, int y) {
 		g.drawImage(indicator, x * indicator.getWidth(), y * indicator.getHeight(), null);
 	}

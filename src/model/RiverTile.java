@@ -9,9 +9,20 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * RiverTile
+ * 
+ * A tile representing a peaceful river.
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
+ */
 public class RiverTile extends Tile {
 	/**
+	 * RiverTile
+	 * 
 	 * The constructor for RiverTiles
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public RiverTile(){
 		this.moveCost = 100;

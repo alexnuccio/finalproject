@@ -9,9 +9,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * this class represents the horse unit
+ * Horse
  * 
- * @author Team Barbs
+ * This class represents the horse unit
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public class Horse extends Unit {
@@ -20,10 +22,12 @@ public class Horse extends Unit {
 	/**
 	 * Horse
 	 * 
-	 * this is the constructor
+	 * This is the constructor
 	 * 
 	 * @param name (String)
 	 * @param player (Player)
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public Horse(String name, Player player) {
 		super(name, player);

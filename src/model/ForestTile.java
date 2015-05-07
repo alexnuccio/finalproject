@@ -10,11 +10,23 @@ import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
+/**
+ * ForestTile
+ * 
+ * Tile to represent a forest; has a higher move cost.
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
+ */
 public class ForestTile extends Tile implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	/**
+	 * ForestTile 
+	 * 
 	 * The constructor for ForestTiles.
 	 * It sets move cost to 2;
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public ForestTile(){
 		this.occupiable = true;

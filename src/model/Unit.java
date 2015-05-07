@@ -8,7 +8,9 @@ import controller.GameController;
 import view.GameView;
 
 /**
- * This class is the abstract Unit class. All decendents will inherit these
+ * Unit
+ * 
+ * This class is the abstract Unit class. All units will inherit these
  * methods
  * 
  * @author Alex Nuccio, Eric Myre, Angel Cornejo
@@ -34,10 +36,12 @@ public abstract class Unit {
 	 * 
 	 * This is the constructor for the abstract unit class
 	 * 
-	 * @param name
-	 *            (String)
-	 * @param player
-	 *            (Player)
+	 * @param name	the name of the unit
+	 *            
+	 * @param player	the player the Unit belongs to
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 *           
 	 */
 	public Unit(String name, Player player) {
 		currMove = 0;
@@ -50,10 +54,28 @@ public abstract class Unit {
 		attack = 20;
 	}
 
+	/**
+	 * setTeam
+	 * 
+	 * Sets the team for the unit
+	 * 
+	 * @param t	the team
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public void setTeam(Team t) {
 		this.team = t;
 	}
 
+	/**
+	 * getTeam
+	 * 
+	 * Gets the team of the unit
+	 * 
+	 * @return Team
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public Team getTeam() {
 		if (this.team != null) {
 			return this.team;
@@ -66,6 +88,18 @@ public abstract class Unit {
 
 	public abstract BufferedImage getImage();
 
+	/**
+	 * setPosition
+	 * 
+	 * Sets the unit's position
+	 * 
+	 * @param row	the row the unit occupies
+	 * @param col	the column the unit occupies
+	 * @param m		the map
+	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public boolean setPosition(int row, int col, MapOne m) {
 		this.xPosition = col * this.getImage().getWidth();
 		this.yPosition = row * this.getImage().getHeight();
@@ -80,11 +114,15 @@ public abstract class Unit {
 	/**
 	 * move
 	 * 
-	 * this method moves the unit
+	 * This method moves the unit
 	 * 
-	 * @param direction
-	 *            (int)
+	 * @param d	the direction the unit will move
+	 * 
+	 * @param m the map
+	 *            
 	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 
 	public boolean move(Direction D, MapOne m) {
@@ -224,11 +262,13 @@ public abstract class Unit {
 	/**
 	 * useItem
 	 * 
-	 * this method allows the unit to use an item
+	 * This method allows the unit to use an item
 	 * 
-	 * @param item
-	 *            (Item)
+	 * @param item	the item to be used
+	 *           
 	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public boolean useItem(Item item) {
 		if (item instanceof HealthPotion) {
@@ -260,11 +300,15 @@ public abstract class Unit {
 	/**
 	 * attack
 	 * 
-	 * this method allows the unit to attack other units
+	 * This method allows the unit to attack other units
 	 * 
-	 * @param direction
-	 *            (int)
+	 * @param d	the direction to attack in
+	 * 
+	 * @param m	the map
+	 *            
 	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public boolean attack(Direction D, MapOne m) {
 		int row, col;
@@ -383,7 +427,11 @@ public abstract class Unit {
 	/**
 	 * getName
 	 * 
-	 * @return String representing name
+	 * Returns the name of the unit
+	 * 
+	 * @return String
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public String getName() {
 		return this.name;
@@ -392,12 +440,27 @@ public abstract class Unit {
 	/**
 	 * getPlayer
 	 * 
-	 * @return Player object representing player
+	 * Return the player this unit belongs to
+	 * 
+	 * @return Player 
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public Player getPlayer() {
 		return this.player;
 	}
 
+	/**
+	 * getRow
+	 * 
+	 * Returns the row the unit is on
+	 * 
+	 * @param m	the map
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getRow(MapOne m) {
 		for (int i = 0; i < m.getNumRow(); i++) {
 			for (int j = 0; j < m.getNumCol(); j++) {
@@ -411,6 +474,17 @@ public abstract class Unit {
 		return -1; // -1 if it is not present in array
 	}
 
+	/**
+	 * getCol
+	 * 
+	 * Returns the column this unit is on
+	 * 
+	 * @param m the map
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getCol(MapOne m) {
 		for (int i = 0; i < m.getNumRow(); i++) {
 			for (int j = 0; j < m.getNumCol(); j++) {
@@ -424,14 +498,43 @@ public abstract class Unit {
 		return -1; // -1 if it is not present in array
 	}
 
+	/**
+	 * getHitPoints
+	 * 
+	 * Returns the current hit points of the unit
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getHitpoints() {
 		return this.hitpoints;
 	}
 
+	/**
+	 * setHitPoints
+	 * 
+	 * Sets the unit's hit points to be a certain value
+	 * 
+	 * @param hit	the hp value to be set
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public void setHitpoints(int hit) {
 		this.hitpoints = hit;
 	}
 
+	/**
+	 * equals
+	 * 
+	 * Determines whether two units are equal
+	 * 
+	 * @param other	the unit being compared to
+	 * 
+	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public boolean equals(Unit other) {
 		if (this.name.equals(other.name)) {
 			return true;

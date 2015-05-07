@@ -3,18 +3,19 @@ package model;
 import java.awt.Graphics;
 
 /**
- * this class represents the Trap item
+ * This class represents the Trap item
  * 
- * @author Team Barbs
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public class Trap extends Item {
 
 	/**
-	 * trap
+	 * Trap
 	 * 
-	 * this is the constructor
+	 * This is the constructor
 	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public Trap() {
 		// TODO Auto-generated constructor stub
@@ -23,10 +24,11 @@ public class Trap extends Item {
 	/**
 	 * use
 	 * 
-	 * this lays a trap
+	 * This lays a trap
 	 * 
 	 * @return boolean
 	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public boolean use() {
 		// TODO Auto-generated method stub

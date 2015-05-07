@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 /**
  * this class represents the Barbarian unit
  * 
- * @author Team Barbs
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public class Barbarian extends Unit {
@@ -21,10 +21,12 @@ public class Barbarian extends Unit {
 	/**
 	 * Barbarian
 	 * 
-	 * this is the constructor
+	 * This is the constructor.
 	 * 
 	 * @param name (String)
 	 * @param player (Player)
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public Barbarian(String name, Player player) {
 		super(name, player);

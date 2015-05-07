@@ -8,9 +8,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * this class represents a StrenghPotion
+ * StrengthPotion
  * 
- * @author Team Barbs
+ * This class represents a StrenghPotion; increases the attack power of a unit.
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public class StrengthPotion extends Item {
@@ -19,8 +21,9 @@ public class StrengthPotion extends Item {
 	/**
 	 * StrengthPotion
 	 * 
-	 * this is the constructor
+	 * This is the constructor
 	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public StrengthPotion() {
 		try {

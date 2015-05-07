@@ -6,21 +6,64 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
+/**
+ * Cursor
+ * The cursor that players will control that allows them to select tiles within the game.
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
+ */
 public class Cursor {
 	int row, col;
 
+	/**
+	 * Cursor
+	 * The constructor the cursor. Empty.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public Cursor() {
 	}
 	
+	/**
+	 * getRow
+	 * 
+	 * returns the row the cursor is currently at
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getRow() {
 		return this.row;
 	}
 	
+	/**
+	 * getCol
+	 * 
+	 * returns the column the cursor is currently at
+	 * 
+	 * @return int
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public int getCol() {
 		return this.col;
 	}
 	
+	/**
+	 * setPosition
+	 * 
+	 * Sets the position to a location on the map
+	 * 
+	 * @param x	the x position on the map's grid
+	 * 
+	 * @param y the y position on the map's grid
+	 * 
+	 * @param m the map
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 * 
+	 */
 	public void setPosition(int x, int y, MapOne m) {
 		if((x >= 0 && x < m.getNumRow()) && (y >= 0 && y < m.getNumCol())) {
 			this.row = x;
@@ -32,6 +75,17 @@ public class Cursor {
 		}
 	}
 	
+	/**
+	 * move
+	 * 
+	 * Moves the cursor.
+	 * 
+	 * @param d	the direction to move
+	 * @param m	the map
+	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public boolean move(Direction d, MapOne m) {
 		int currRow = getRow();
 		int currCol = getCol();

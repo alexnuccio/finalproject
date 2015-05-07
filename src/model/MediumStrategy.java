@@ -4,6 +4,13 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
+/**
+ * MediumStrategy
+ * 
+ * The strategy in which the AI units will attack.
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
+ */
 public class MediumStrategy extends Strategy {
 
 	private Player ai;
@@ -12,10 +19,32 @@ public class MediumStrategy extends Strategy {
 	private int reference;
 	private boolean attacked = false;
 	
+	
+	/**
+	 * MediumStrategy
+	 * 
+	 * Constructor.
+	 * 
+	 * @param computer
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public MediumStrategy(Player computer) {
 		super(computer);
 	}
 	
+	/**
+	 * aiMove
+	 * 
+	 * Conducts the actions that make up an AI controlled unit's turn.
+	 * Tries to attack in every direction, moves randomly if no attack was made.
+	 * 
+	 * @param currUnit	the unit who's turn it is
+	 * 
+	 * @param map	the map 
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public void aiMove(Unit currUnit, MapOne map) {
 		
 		if(currUnit.getTeam() == Team.USER) {

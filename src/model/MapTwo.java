@@ -9,9 +9,24 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * MapTwo
+ * 
+ * The second map; extends MapOne.
+ * 
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
+ */
 public class MapTwo extends MapOne {
 
 	BufferedImage river;
+	
+	/**
+	 * MapTwo
+	 * 
+	 * The constructor.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public MapTwo() {
 		
 		try {
@@ -45,6 +60,15 @@ public class MapTwo extends MapOne {
 		
 	}
 	
+	/**
+	 * paintComponent
+	 * 
+	 * Draws the map.
+	 * 
+	 * @param g
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

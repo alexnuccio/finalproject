@@ -9,9 +9,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
+ * Mage
+ * 
  * This class represents the Mage unit
  * 
- * @author Alex Nuccio, Eric Myre, Angel Cornejo, Raymond
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public class Mage extends Unit {
@@ -19,10 +21,12 @@ public class Mage extends Unit {
 	/**
 	 * Mage
 	 * 
-	 * this is the constructor of the Mage unit
+	 * This is the constructor of the Mage unit
 	 * 
 	 * @param name (String)
 	 * @param player (Player)
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public Mage(String name, Player player) {
 		super(name, player);
@@ -42,6 +46,19 @@ public class Mage extends Unit {
 		g.drawImage(img, x, y, null);
 	}
 	
+	/**
+	 * attack
+	 * 
+	 * Allows the mage to attack another unit. The mage's attack causes splash damge to surrounding tiles.
+	 * 
+	 * @param D	the direction in which the attack will be made
+	 * 
+	 * @param m	the map
+	 * 
+	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public boolean attack(Direction D, MapOne m) {
 		int row, col;
 		row = this.getRow(m);

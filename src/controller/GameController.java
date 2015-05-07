@@ -22,7 +22,9 @@ import model.Cursor;
 import view.*;
 
 /**
- * The controller
+ * The controller. 
+ * Creates and holds the map, the players, their units and all items.
+ * Initializes and runs the game.
  * 
  * @author Alex Nuccio, Eric Myre, Angel Cornejo
  * 
@@ -52,7 +54,19 @@ public class GameController extends JFrame implements Serializable {
 	public static int trapsUsed;
 
 	/**
-	 * This is the constructor
+	 * GameController
+	 * 
+	 * Constructor for GameController.
+	 * 
+	 * @param player1	The human player
+	 * 
+	 * @param ai		The AI controlled player
+	 * 
+	 * @param m			The map to be used for the game
+	 * 
+	 * @param gameMode	Indicates the scenario of the game to be created
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public GameController(Player player1, Player ai, MapOne m,
 			final int gameMode) {
@@ -247,6 +261,17 @@ public class GameController extends JFrame implements Serializable {
 
 	}
 
+	/**
+	 * runGame
+	 * 
+	 * For the "main" version of the game.
+	 * Assigns the AI's strategy to be used, spawns units and items.
+	 * Then "runs" the game. Checking if win conditions are met and 
+	 * cycling turns between players until the game is over.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
+	
 	public void runGame() {
 		Strategy strat = new MediumStrategy(ai);
 		// SPAWN ALL UNITS
@@ -329,6 +354,16 @@ public class GameController extends JFrame implements Serializable {
 		System.exit(0);
 	} // end of runGame()
 
+	/**
+	 * runItemCollector
+	 * 
+	 * For the Item Collector version of the game.
+	 * Assigns the AI's strategy, spawns items on every tile, spawns the predetermined units
+	 * and "runs" the game in a manner similar to the runGame() method.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 * 
+	 */
 	public static void runItemCollector() {
 		Strategy strat = new WeakStrategy(ai);
 		// spawn items on every tile
@@ -408,6 +443,15 @@ public class GameController extends JFrame implements Serializable {
 		System.exit(0);
 	}
 
+	/**
+	 * runSurvival
+	 * 
+	 * For the Survival version of the game.
+	 * Assigns the AI's strategy, spawns units, items and "runs" the game similar to the other "run" methods.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 * 
+	 */
 	public static void runSurvival() {
 		Strategy strat = new MediumStrategy(ai);
 		player1 = new Player();
@@ -489,10 +533,15 @@ public class GameController extends JFrame implements Serializable {
 	}
 
 	/**
-	 * The main method
+	 * main
+	 * 
+	 * The main method. 
+	 * Asks the user which version of the game they would like to play, then sets up that game.
 	 * 
 	 * @param args
 	 *            Command-line arguments
+	 *            
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public static void main(String[] args) {
 
@@ -786,6 +835,19 @@ public class GameController extends JFrame implements Serializable {
 
 	}
 
+	/**
+	 * getCurrUnit
+	 * 
+	 * Iterates through a list of players and subsequently their individual lists of units, 
+	 * returns the unit who's turn it is.
+	 * 
+	 * @param list	The list of Players
+	 * 
+	 * @return Unit
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 * 
+	 */
 	public static Unit getCurrUnit(ArrayList<Player> list) {
 		for (int i = 0; i < myList.size(); i++) {
 			if (i == 0) {
@@ -805,6 +867,15 @@ public class GameController extends JFrame implements Serializable {
 		return null;
 	}
 
+	/**
+	 * checkIfGameIsOver
+	 * 
+	 * Checks if the win or loss conditions have been met.
+	 * 
+	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	private static boolean checkIfGameIsOver() {
 		elapsedMinutes = (System.currentTimeMillis() - startTime);
 		elapsedMinutes = elapsedMinutes / 1000;
@@ -823,7 +894,14 @@ public class GameController extends JFrame implements Serializable {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * removeDeadPlayers
+	 * 
+	 * Removes units who have died from their player's unit list.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	private static void removeDeadPlayers() {
 		for (int i = 0; i < myList.size(); i++) {
 
@@ -844,6 +922,13 @@ public class GameController extends JFrame implements Serializable {
 		}
 	}
 
+	/**
+	 * checkIfGameIsOver2
+	 * 
+	 * Checks if the game has ended for the Item Collection game.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	private static boolean checkIfGameIsOver2() {
 		// checks if tile's still have items on them
 		// returns false if there are still items, returns true if not
@@ -857,9 +942,16 @@ public class GameController extends JFrame implements Serializable {
 		return true;
 	}
 
+	/**
+	 * checkIfGameIsOver3
+	 * 
+	 * Checks if the game has ended for the Survival game.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	private static boolean checkIfGameIsOver3(int turn) {
-		// checks if turn is greater than 10.
-		// if user has had 10 or more turns, game is over and user has won
+		// checks if turn is greater than 30.
+		// if user has had 30 or more turns, game is over and user has won
 		removeDeadPlayers();
 		if (turn >= 30) {
 			player1.won = true;
@@ -875,6 +967,13 @@ public class GameController extends JFrame implements Serializable {
 		return false;
 	}
 
+	/**
+	 * keyListener
+	 * 
+	 * Action listener for key presses.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	private class keyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent k) {
@@ -1025,6 +1124,13 @@ public class GameController extends JFrame implements Serializable {
 		}
 	}
 
+	/**
+	 * save
+	 * 
+	 * Saves the current state of the game to be loaded later on.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public void save() {
 		ObjectOutputStream saveStream = null;
 		String fileName = "";
@@ -1061,6 +1167,13 @@ public class GameController extends JFrame implements Serializable {
 		}
 	}
 
+	/**
+	 * ItemListener
+	 * 
+	 * Action listener for the use of items.
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	private class ItemListener implements ActionListener {
 
 		@Override

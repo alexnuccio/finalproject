@@ -9,9 +9,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * this class represents the Archer unit
+ * This class represents the Archer unit.
  * 
- * @author Team Barbs
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public class Archer extends Unit {	
@@ -21,10 +21,12 @@ public class Archer extends Unit {
 	/**
 	 * Archer
 	 * 
-	 * this is the constructor
+	 * The constructor for the archer.
 	 * 
 	 * @param name (String)
 	 * @param player (Player)
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public Archer(String name, Player player) {
 		super(name, player);
@@ -41,12 +43,15 @@ public class Archer extends Unit {
 	}
 
 	/**
-	 * attack
+	 * Attack
 	 * 
-	 * this method allows the unit to attack other units
+	 * This method allows the unit to attack other units. 
+	 * Archers can only attack units 2 tiles away.
 	 * 
 	 * @param Direction (D), MapOne (M)
 	 * @return boolean
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public boolean attack(Direction D, MapOne m) {
 		int row, col;

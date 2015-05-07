@@ -9,9 +9,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
+ * Spearman
+ * 
  * This class represents the Spearman unit
  * 
- * @author Team Barbs
+ *@author Alex Nuccio, Eric Myre, Angel Cornejo
  *
  */
 public class Spearman extends Unit {
@@ -20,10 +22,13 @@ public class Spearman extends Unit {
 	/**
 	 * Spearman
 	 * 
-	 * this is the constructor of the Spearman unit
+	 * This is the constructor of the Spearman unit
 	 * 
-	 * @param name (String)
-	 * @param player (Player)
+	 * @param name	the name of the Unit
+	 * 
+	 * @param player	the player the Unit belongs to 
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
 	 */
 	public Spearman(String name, Player player) {
 		super(name, player);

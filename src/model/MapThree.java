@@ -9,9 +9,23 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+/**
+ * MapThree
+ * 
+ * The third map; extends MapOne.
+ *
+ * @author Alex Nuccio, Eric Myre, Angel Cornejo
+ */
 public class MapThree extends MapOne {
 
 	BufferedImage forest;
+	
+	/**
+	 * The constructor for the MapThree
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	public MapThree() {
 		
 		try {
@@ -48,6 +62,15 @@ public class MapThree extends MapOne {
 		
 	}
 	
+	/**
+	 * paintComponent
+	 * 
+	 * Draws the map.
+	 * 
+	 * @param g
+	 * 
+	 * @author Alex Nuccio, Eric Myre, Angel Cornejo
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
